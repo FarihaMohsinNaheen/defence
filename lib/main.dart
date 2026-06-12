@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-// import 'package:nan_nestfinder/home_page.dart';
-// import 'package:nan_nestfinder/owner_dashboard_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
-import 'roleselection_page.dart';
+import 'package:nan_nestfinder/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://chgxphrfxnhvcifdiyxq.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoZ3hwaHJmeG5odmNpZmRpeXhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3Mjk4NzcsImV4cCI6MjA5NTMwNTg3N30.qiy_cPG9I0K-gq63gbPzCDopgy3pZqFVL-g_Qhv_1Jk',
-  );
+
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const NAN_NestFinder());
 }
 
@@ -27,7 +24,7 @@ class NAN_NestFinder extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color(0xFFE3F2FD),
       ),
-      home: const RoleSelectionPage(),
+      home: const SplashScreen(),
     );
   }
 }

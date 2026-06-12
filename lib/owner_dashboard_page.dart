@@ -1,575 +1,17 @@
-// import 'package:flutter/material.dart';
-// import 'package:nan_nestfinder/Owner_Help&Support_page.dart';
-// import 'package:nan_nestfinder/Owner_setting_page.dart';
-// import 'package:nan_nestfinder/owner_notification_page.dart';
-
-// import 'owner_addhostel_page.dart';
-// import 'owner_hostellist_page.dart';
-// import 'owner_profile_page.dart';
-
-// class OwnerDashboardPage extends StatefulWidget {
-//   const OwnerDashboardPage({super.key});
-
-//   @override
-//   State<OwnerDashboardPage> createState() => _OwnerDashboardPageState();
-// }
-
-// class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
-//   final Color primaryBlue = const Color(0xFF003366);
-
-//   int currentIndex = 0;
-
-//   // static data for now
-//   int totalListings = 3;
-//   int approvedListings = 2;
-//   int pendingListings = 1;
-//   double rating = 4.5;
-
-//   void onTabTapped(int index) {
-//     setState(() {
-//       currentIndex = index;
-//     });
-
-//     if (index == 0) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const OwnerDashboardPage()),
-//       );
-//     } else if (index == 1) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const AddHostelPage()),
-//       );
-//     } else if (index == 2) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const MyListingsPage()),
-//       );
-//     } else if (index == 3) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const OwnerProfilePage()),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xFFEAF4FF),
-
-//       // ================= APP BAR =================
-//       appBar: AppBar(
-//         backgroundColor: Colors.transparent,
-//         elevation: 0,
-//         iconTheme: IconThemeData(color: primaryBlue),
-//         title: Text(
-//           "Owner Dashboard",
-//           style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold),
-//         ),
-//       ),
-
-//       // ================= DRAWER MENU =================
-//       drawer: Drawer(
-//         child: Column(
-//           children: [
-//             DrawerHeader(
-//               decoration: BoxDecoration(color: primaryBlue),
-//               child: const Align(
-//                 alignment: Alignment.bottomLeft,
-//                 child: Text(
-//                   "Menu",
-//                   style: TextStyle(color: Colors.white, fontSize: 22),
-//                 ),
-//               ),
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.notifications),
-//               title: const Text("Notifications"),
-//               onTap: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (_) => const OwnerNotificationPage(),
-//                   ),
-//                 );
-//               },
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.settings),
-//               title: const Text("Settings"),
-//               onTap: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(builder: (_) => const OwnerSettingPage()),
-//                 );
-//               },
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.help),
-//               title: const Text("Help & Support"),
-//               onTap: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (_) => const OwnerHelpsupportPage(),
-//                   ),
-//                 );
-//               },
-//             ),
-
-//             const Spacer(),
-
-//             ListTile(
-//               leading: const Icon(Icons.logout, color: Colors.red),
-//               title: const Text("Logout", style: TextStyle(color: Colors.red)),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-
-//       // ================= BODY =================
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.all(16),
-
-//         child: Column(
-//           children: [
-//             buildCard("Total Listings", "$totalListings", Icons.home_work),
-//             const SizedBox(height: 12),
-//             buildCard(
-//               "Approved",
-//               "$approvedListings",
-//               Icons.verified,
-//               color: Colors.green,
-//             ),
-//             const SizedBox(height: 12),
-//             buildCard(
-//               "Pending",
-//               "$pendingListings",
-//               Icons.pending_actions,
-//               color: Colors.orange,
-//             ),
-//             const SizedBox(height: 12),
-//             buildCard("Reviews", "$rating ⭐", Icons.star, color: Colors.amber),
-//           ],
-//         ),
-//       ),
-
-//       // ================= BOTTOM NAV =================
-//       bottomNavigationBar: BottomNavigationBar(
-//         currentIndex: currentIndex,
-//         selectedItemColor: primaryBlue,
-//         unselectedItemColor: Colors.grey,
-//         type: BottomNavigationBarType.fixed,
-//         onTap: onTabTapped,
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.dashboard),
-//             label: "Dashboard",
-//           ),
-//           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Hostel"),
-//           BottomNavigationBarItem(icon: Icon(Icons.list), label: "Hostel List"),
-//           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-//         ],
-//       ),
-//     );
-//   }
-
-//   /// CARD UI
-//   Widget buildCard(
-//     String title,
-//     String value,
-//     IconData icon, {
-//     Color color = const Color(0xFF003366),
-//   }) {
-//     return Container(
-//       width: double.infinity,
-//       padding: const EdgeInsets.all(18),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(18),
-//         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-//       ),
-//       child: Row(
-//         children: [
-//           Icon(icon, size: 40, color: color),
-//           const SizedBox(width: 15),
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 title,
-//                 style: const TextStyle(
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.w600,
-//                 ),
-//               ),
-//               const SizedBox(height: 5),
-//               Text(
-//                 value,
-//                 style: TextStyle(
-//                   fontSize: 20,
-//                   fontWeight: FontWeight.bold,
-//                   color: color,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-
-// import 'owner_addhostel_page.dart';
-// import 'owner_hostellist_page.dart';
-// import 'owner_profile_page.dart';
-
-// const Color primaryBlue = Color(0xFF003366);
-
-// class OwnerDashboardPage extends StatefulWidget {
-//   const OwnerDashboardPage({super.key});
-
-//   @override
-//   State<OwnerDashboardPage> createState() => _OwnerDashboardPageState();
-// }
-
-// class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
-//   int currentIndex = 0;
-
-//   void onTabTapped(int index) {
-//     setState(() {
-//       currentIndex = index;
-//     });
-
-//     if (index == 0) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const OwnerDashboardPage()),
-//       );
-//     } else if (index == 1) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const AddHostelPage()),
-//       );
-//     } else if (index == 2) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const MyListingsPage()),
-//       );
-//     } else if (index == 3) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (_) => const OwnerProfilePage()),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xFFF4F7FC),
-
-//       // ================= APP BAR =================
-//       appBar: AppBar(
-//         backgroundColor: Colors.transparent,
-//         elevation: 0,
-//         iconTheme: const IconThemeData(color: primaryBlue),
-//         title: Text(
-//           "Owner Dashboard",
-//           style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold),
-//         ),
-//       ),
-
-//       // ================= DRAWER MENU =================
-//       drawer: Drawer(
-//         child: Column(
-//           children: [
-//             DrawerHeader(
-//               decoration: const BoxDecoration(color: primaryBlue),
-//               child: const Align(
-//                 alignment: Alignment.bottomLeft,
-//                 child: Text(
-//                   "Menu",
-//                   style: TextStyle(color: Colors.white, fontSize: 22),
-//                 ),
-//               ),
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.notifications),
-//               title: const Text("Notifications"),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.settings),
-//               title: const Text("Settings"),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-
-//             ListTile(
-//               leading: const Icon(Icons.help),
-//               title: const Text("Help & Support"),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-
-//             const Spacer(),
-
-//             ListTile(
-//               leading: const Icon(Icons.logout, color: Colors.red),
-//               title: const Text("Logout"),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-
-//       // ================= BODY (YOUR ORIGINAL UI - UNCHANGED) =================
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.all(14),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text(
-//               "Welcome back, Owner!",
-//               style: TextStyle(color: Colors.grey, fontSize: 12),
-//             ),
-
-//             const SizedBox(height: 16),
-
-//             Row(
-//               children: [
-//                 statBox("🏠", "3", "Total Listings"),
-//                 const SizedBox(width: 10),
-//                 statBox("✅", "2", "Approved"),
-//               ],
-//             ),
-
-//             const SizedBox(height: 10),
-
-//             Row(
-//               children: [
-//                 statBox("⏳", "1", "Pending Approval"),
-//                 const SizedBox(width: 10),
-//                 statBox("⭐", "24", "Reviews Received"),
-//               ],
-//             ),
-
-//             const SizedBox(height: 18),
-
-//             Container(
-//               padding: const EdgeInsets.all(14),
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(14),
-//               ),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const Text(
-//                     "Quick Actions",
-//                     style: TextStyle(fontWeight: FontWeight.bold),
-//                   ),
-
-//                   const SizedBox(height: 14),
-
-//                   SizedBox(
-//                     width: double.infinity,
-//                     height: 50,
-//                     child: ElevatedButton(
-//                       style: ElevatedButton.styleFrom(
-//                         backgroundColor: primaryBlue,
-//                       ),
-//                       onPressed: () {
-//                         Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (_) => const AddHostelPage(),
-//                           ),
-//                         );
-//                       },
-//                       child: const Text(
-//                         "+ Add New Listing",
-//                         style: TextStyle(color: Colors.white),
-//                       ),
-//                     ),
-//                   ),
-
-//                   const SizedBox(height: 12),
-
-//                   SizedBox(
-//                     width: double.infinity,
-//                     height: 50,
-//                     child: OutlinedButton(
-//                       onPressed: () {
-//                         Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (_) => const MyListingsPage(),
-//                           ),
-//                         );
-//                       },
-//                       child: const Text(
-//                         "☰ View My Listings",
-//                         style: TextStyle(color: primaryBlue),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-
-//             const SizedBox(height: 18),
-//             Icon(
-//   Icons.star,
-//   color: Colors.amber,
-//   size: 32,
-// ),
-//             const Text(
-//               " Recent Reviews",
-//               style: TextStyle(fontWeight: FontWeight.bold),
-//             ),
-
-//             const SizedBox(height: 12),
-
-//             reviewBox("Rahim Ahmed", "Excellent hostel! Highly recommended."),
-//             const SizedBox(height: 12),
-//             reviewBox("Sarah Khan", "Good facilities and clean rooms."),
-
-//             const SizedBox(height: 18),
-
-//             Container(
-//               width: double.infinity,
-//               padding: const EdgeInsets.all(14),
-//               decoration: BoxDecoration(
-//                 color: const Color(0xFFDCE8FF),
-//                 borderRadius: BorderRadius.circular(14),
-//               ),
-//               child: const Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     "📋 Listing Status",
-//                     style: TextStyle(fontWeight: FontWeight.bold),
-//                   ),
-//                   SizedBox(height: 10),
-//                   Text(
-//                     "✅ Approved listings are visible to students",
-//                     style: TextStyle(fontSize: 12),
-//                   ),
-//                   SizedBox(height: 6),
-//                   Text(
-//                     "⏳ Pending listings await admin verification",
-//                     style: TextStyle(fontSize: 12),
-//                   ),
-//                   SizedBox(height: 6),
-//                   Text(
-//                     "🔒 Verified listings get TrustScore badge",
-//                     style: TextStyle(fontSize: 12),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-
-//       // ================= BOTTOM NAV =================
-//       bottomNavigationBar: BottomNavigationBar(
-//         currentIndex: currentIndex,
-//         selectedItemColor: primaryBlue,
-//         unselectedItemColor: Colors.grey,
-//         type: BottomNavigationBarType.fixed,
-//         onTap: onTabTapped,
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.dashboard),
-//             label: "Dashboard",
-//           ),
-//           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Hostel"),
-//           BottomNavigationBarItem(icon: Icon(Icons.list), label: "Hostel List"),
-//           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-//         ],
-//       ),
-//     );
-//   }
-
-//   // ================= WIDGETS (UNCHANGED) =================
-//   Widget statBox(String icon, String number, String title) {
-//     return Expanded(
-//       child: Container(
-//         padding: const EdgeInsets.all(14),
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: BorderRadius.circular(14),
-//         ),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(icon),
-//             const SizedBox(height: 6),
-//             Text(
-//               number,
-//               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(height: 4),
-//             Text(title, style: const TextStyle(fontSize: 11)),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget reviewBox(String name, String review) {
-//     return Container(
-//       padding: const EdgeInsets.all(14),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(14),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-//               const Text("⭐⭐⭐⭐⭐"),
-//             ],
-//           ),
-//           const SizedBox(height: 8),
-//           Text(review, style: const TextStyle(fontSize: 12)),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
-import 'package:nan_nestfinder/Owner_Help&Support_page.dart';
-import 'package:nan_nestfinder/Owner_setting_page.dart';
-import 'package:nan_nestfinder/owner_notification_page.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nan_nestfinder/experiencedfeed_page.dart';
+import 'package:nan_nestfinder/owner_booking_page.dart';
+import 'package:nan_nestfinder/ownerpayment_page.dart';
+import 'Owner_Help&Support_page.dart';
+import 'owner_setting_page.dart';
+import 'owner_notification_page.dart';
 import 'owner_addhostel_page.dart';
 import 'owner_hostellist_page.dart';
 import 'owner_profile_page.dart';
+import 'owner_chatlist_page.dart';
+import 'roleselection_page.dart';
 
 const Color primaryBlue = Color(0xFF003366);
 
@@ -582,75 +24,100 @@ class OwnerDashboardPage extends StatefulWidget {
 
 class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
   int currentIndex = 0;
+  final uid = FirebaseAuth.instance.currentUser?.uid;
 
-  void onTabTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-
-    if (index == 0) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const OwnerDashboardPage()),
-      );
-    } else if (index == 1) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const AddHostelPage()),
-      );
-    } else if (index == 2) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const MyListingsPage()),
-      );
-    } else if (index == 3) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const OwnerProfilePage()),
-      );
-    }
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const RoleSelectionPage()),
+      (route) => false,
+    );
   }
 
-  void openDrawerPage(Widget page) {
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+  void onTabTapped(int index) {
+    if (index == currentIndex) return;
+
+    Widget page;
+    switch (index) {
+      case 0:
+        page = const OwnerDashboardPage();
+        break;
+      case 1:
+        page = const MyListingsPage();
+        break;
+      case 2:
+        page = const AddHostelPage();
+        break;
+      case 3:
+        page = const OwnerProfilePage();
+        break;
+
+      default:
+        page = const OwnerDashboardPage();
+    }
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => page));
   }
 
   @override
   Widget build(BuildContext context) {
+    if (uid == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFF4F7FC),
-
-      // ================= APP BAR =================
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: primaryBlue),
-        title: Text(
+        title: const Text(
           "Owner Dashboard",
           style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.message_outlined),
+            onPressed: () => onTabTapped(3),
+          ),
+        ],
       ),
-
-      // ================= DRAWER (WORKING MENU) =================
       drawer: Drawer(
         child: Column(
           children: [
             DrawerHeader(
-              decoration: const BoxDecoration(color: primaryBlue),
-              child: const Align(
+              decoration: BoxDecoration(color: primaryBlue),
+              child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  "Menu",
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.home_work, color: Colors.white, size: 40),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Owner Panel",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
 
             ListTile(
-              leading: const Icon(Icons.notifications, color: primaryBlue),
+              leading: const Icon(
+                Icons.notifications_outlined,
+                color: primaryBlue,
+              ),
               title: const Text("Notifications"),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -659,22 +126,22 @@ class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
                 );
               },
             ),
-
             ListTile(
-              leading: const Icon(Icons.settings, color: primaryBlue),
+              leading: const Icon(Icons.settings_outlined, color: primaryBlue),
               title: const Text("Settings"),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const OwnerSettingsPage()),
                 );
               },
             ),
-
             ListTile(
               leading: const Icon(Icons.help_outline, color: primaryBlue),
               title: const Text("Help & Support"),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -683,289 +150,314 @@ class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
                 );
               },
             ),
-
             const Spacer(),
-
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text("Logout"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              title: const Text("Logout", style: TextStyle(color: Colors.red)),
+              onTap: logout,
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
-
-      // ================= BODY =================
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Welcome back, Owner!",
-              style: TextStyle(color: Colors.grey, fontSize: 12),
-            ),
-
-            const SizedBox(height: 16),
-
-            Row(
-              children: [
-                statBox(Icons.home_work, "3", "Total Listings"),
-                const SizedBox(width: 10),
-                statBox(Icons.verified, "2", "Approved"),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            Row(
-              children: [
-                statBox(Icons.hourglass_bottom, "1", "Pending"),
-                const SizedBox(width: 10),
-                statBox(Icons.star, "24", "Reviews"),
-              ],
-            ),
-
-            const SizedBox(height: 18),
-
-            // QUICK ACTIONS
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: () async => setState(() {}),
+        color: primaryBlue,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  const Text(
-                    "Quick Actions",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    "Welcome back, ",
+                    style: TextStyle(color: Colors.grey[600], fontSize: 14),
                   ),
-
-                  const SizedBox(height: 14),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryBlue,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const AddHostelPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "+ Add New Listing",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const MyListingsPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "☰ View My Listings",
-                        style: TextStyle(color: primaryBlue),
-                      ),
+                  Text(
+                    "Owner!",
+                    style: TextStyle(
+                      color: primaryBlue,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
-            ),
+              const SizedBox(height: 20),
 
-            const SizedBox(height: 18),
+              // Row 1: Total Listings + Approved
+              Row(
+                children: [
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('hostels')
+                          .where('owner_id', isEqualTo: uid)
+                          .snapshots(),
+                      builder: (context, snap) {
+                        return statBox(
+                          Icons.home_work,
+                          snap.hasData ? "${snap.data!.docs.length}" : "0",
+                          "Total Listings",
+                          Colors.blue,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('hostels')
+                          .where('owner_id', isEqualTo: uid)
+                          .where('status', isEqualTo: 'approved')
+                          .snapshots(),
+                      builder: (context, snap) {
+                        return statBox(
+                          Icons.verified,
+                          snap.hasData ? "${snap.data!.docs.length}" : "0",
+                          "Approved",
+                          Colors.green,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
 
-            // REVIEWS TITLE (FIXED ICON)
-            Row(
-              children: const [
-                Icon(Icons.star_rate, color: Colors.amber, size: 22),
-                SizedBox(width: 6),
-                Text(
-                  "Recent Reviews",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              // Row 2: Pending + Bookings
+              Row(
+                children: [
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('hostels')
+                          .where('owner_id', isEqualTo: uid)
+                          .where('status', isEqualTo: 'pending')
+                          .snapshots(),
+                      builder: (context, snap) {
+                        return statBox(
+                          Icons.hourglass_bottom,
+                          snap.hasData ? "${snap.data!.docs.length}" : "0",
+                          "Pending",
+                          Colors.orange,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('bookings')
+                          .where(
+                            'owner_id',
+                            isEqualTo: uid,
+                          ) // ownerId na, owner_id
+                          .where('status', isEqualTo: 'approved')
+                          .snapshots(),
+                      builder: (context, snap) {
+                        return statBox(
+                          Icons.book_online,
+                          snap.hasData ? "${snap.data!.docs.length}" : "0",
+                          "Bookings",
+                          Colors.purple,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+
+              Text(
+                "Quick Actions",
+                style: TextStyle(
+                  color: primaryBlue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-
-            reviewBox("Rahim Ahmed", "Excellent hostel! Highly recommended."),
-            const SizedBox(height: 12),
-            reviewBox("Sarah Khan", "Good facilities and clean rooms."),
-
-            const SizedBox(height: 18),
-
-            // LISTING STATUS (WITH PROPER ICONS)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDCE8FF),
-                borderRadius: BorderRadius.circular(14),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Row(
-                    children: [
-                      Icon(Icons.list_alt, size: 18),
-                      SizedBox(width: 6),
-                      Text(
-                        "Listing Status",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _quickAction(
+                      icon: Icons.message_outlined,
+                      label: "Messages",
+                      color: primaryBlue,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OwnerChatListPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  SizedBox(height: 10),
-
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green, size: 16),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          "Approved listings are visible to students",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 6),
-
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.hourglass_bottom,
-                        color: Colors.orange,
-                        size: 16,
-                      ),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          "Pending listings await admin verification",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 6),
-
-                  Row(
-                    children: [
-                      Icon(Icons.verified_user, color: Colors.blue, size: 16),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          "Verified listings get TrustScore badge",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _quickAction(
+                      icon: Icons.payment,
+                      label: "Payments",
+                      color: Colors.teal,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OwnerPaymentPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _quickAction(
+                      icon: Icons.dynamic_feed,
+                      label: "Reviews",
+                      color: Colors.indigo,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExperienceFeedPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _quickAction(
+                      icon: Icons.book_online,
+                      label: "Bookings",
+                      color: Colors.purple,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                OwnerBookingsPage(owner_id: uid!),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  "Pull down to refresh",
+                  style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-
-      // ================= BOTTOM NAVIGATION =================
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         selectedItemColor: primaryBlue,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         onTap: onTabTapped,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
+            icon: Icon(Icons.dashboard_outlined),
+            activeIcon: Icon(Icons.dashboard),
             label: "Dashboard",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Hostel"),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Hostel List"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt_outlined),
+            activeIcon: Icon(Icons.list_alt),
+            label: "Hostels",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            activeIcon: Icon(Icons.add_circle),
+            label: "Add",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: "Profile",
+          ),
         ],
       ),
     );
   }
 
-  // ================= STATS BOX =================
-  Widget statBox(IconData icon, String number, String title) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, size: 34, color: primaryBlue),
-            const SizedBox(height: 8),
-            Text(
-              number,
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            Text(title, style: const TextStyle(fontSize: 11)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ================= REVIEW BOX =================
-  Widget reviewBox(String name, String review) {
+  Widget statBox(IconData icon, String number, String title, Color color) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                children: const [
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                  Icon(Icons.star, color: Colors.amber, size: 18),
-                ],
-              ),
-            ],
+          Icon(icon, size: 32, color: color),
+          const SizedBox(height: 10),
+          Text(
+            number,
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
-          const SizedBox(height: 8),
-          Text(review, style: const TextStyle(fontSize: 12)),
+          const SizedBox(height: 4),
+          Text(title, style: TextStyle(fontSize: 13, color: Colors.grey[700])),
         ],
+      ),
+    );
+  }
+
+  Widget _quickAction({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 28),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(color: color, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
       ),
     );
   }

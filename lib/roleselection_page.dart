@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'login_page.dart';
 import 'register_page.dart';
 
@@ -23,8 +22,7 @@ class RoleSelectionPage extends StatelessWidget {
 
               /// APP NAME
               const Text(
-                "NAN NestFinder",
-
+                "NAN Nest-Finder",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 34,
@@ -39,7 +37,6 @@ class RoleSelectionPage extends StatelessWidget {
               Container(
                 height: 170,
                 width: 170,
-
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.12),
                   shape: BoxShape.circle,
@@ -48,7 +45,6 @@ class RoleSelectionPage extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-
                 child: const Icon(
                   Icons.apartment_rounded,
                   size: 90,
@@ -61,9 +57,7 @@ class RoleSelectionPage extends StatelessWidget {
               /// TITLE
               const Text(
                 "Choose Your Role",
-
                 textAlign: TextAlign.center,
-
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,
@@ -75,9 +69,7 @@ class RoleSelectionPage extends StatelessWidget {
 
               Text(
                 "Continue as Student or Owner",
-
                 textAlign: TextAlign.center,
-
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.8),
                   fontSize: 16,
@@ -93,12 +85,11 @@ class RoleSelectionPage extends StatelessWidget {
                 icon: Icons.school,
                 color: Colors.white,
                 textColor: primaryBlue,
-
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const RegisterPage(role: "Student"),
+                      builder: (_) => RegisterPage(role: "student"),
                     ),
                   );
                 },
@@ -113,12 +104,11 @@ class RoleSelectionPage extends StatelessWidget {
                 icon: Icons.business,
                 color: Colors.white.withOpacity(0.15),
                 textColor: Colors.white,
-
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const RegisterPage(role: "Owner"),
+                      builder: (_) => RegisterPage(role: "owner"),
                     ),
                   );
                 },
@@ -129,11 +119,9 @@ class RoleSelectionPage extends StatelessWidget {
               /// LOGIN
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-
                 children: [
                   Text(
                     "Already have an account? ",
-
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.8),
                       fontSize: 15,
@@ -149,10 +137,8 @@ class RoleSelectionPage extends StatelessWidget {
                         ),
                       );
                     },
-
                     child: const Text(
                       "Login",
-
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -169,7 +155,7 @@ class RoleSelectionPage extends StatelessWidget {
     );
   }
 
-  /// ROLE BUTTON
+  /// ROLE BUTTON WIDGET
   Widget buildRoleButton({
     required BuildContext context,
     required String title,
@@ -180,27 +166,20 @@ class RoleSelectionPage extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: onTap,
-
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
         ),
-
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: [
             Icon(icon, color: textColor, size: 28),
-
             const SizedBox(width: 12),
-
             Text(
               title,
-
               style: TextStyle(
                 color: textColor,
                 fontSize: 18,

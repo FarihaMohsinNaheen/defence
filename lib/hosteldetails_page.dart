@@ -1,755 +1,10 @@
-// import 'package:flutter/material.dart';
-
-// class HostelDetailsPage extends StatelessWidget {
-//   final Map<String, dynamic> hostel;
-
-//   const HostelDetailsPage({super.key, required this.hostel});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final Color primaryBlue = const Color(0xFF003366);
-
-//     return Scaffold(
-//       backgroundColor: const Color(0xFFEAF4FF),
-
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               /// TOP IMAGE
-//               Stack(
-//                 children: [
-//                   ClipRRect(
-//                     borderRadius: const BorderRadius.only(
-//                       bottomLeft: Radius.circular(25),
-//                       bottomRight: Radius.circular(25),
-//                     ),
-//                     child: Image.network(
-//                       hostel["image"] ?? "https://via.placeholder.com/400",
-//                       height: 280,
-//                       width: double.infinity,
-//                       fit: BoxFit.contain,
-//                     ),
-//                   ),
-
-//                   Positioned(
-//                     top: 15,
-//                     left: 15,
-//                     child: CircleAvatar(
-//                       backgroundColor: Colors.white,
-//                       child: IconButton(
-//                         icon: Icon(Icons.arrow_back, color: primaryBlue),
-//                         onPressed: () {
-//                           Navigator.pop(context);
-//                         },
-//                       ),
-//                     ),
-//                   ),
-
-//                   Positioned(
-//                     top: 15,
-//                     right: 15,
-//                     child: CircleAvatar(
-//                       backgroundColor: Colors.white,
-//                       child: Icon(Icons.favorite_border, color: primaryBlue),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-
-//               Padding(
-//                 padding: const EdgeInsets.all(20),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     /// NAME
-//                     Text(
-//                       hostel["name"] ?? "No Name",
-//                       style: TextStyle(
-//                         fontSize: 28,
-//                         fontWeight: FontWeight.bold,
-//                         color: primaryBlue,
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 8),
-
-//                     /// LOCATION
-//                     Row(
-//                       children: [
-//                         Icon(Icons.location_on, color: primaryBlue, size: 20),
-//                         const SizedBox(width: 5),
-//                         Text(
-//                           hostel["location"] ?? "No Location",
-//                           style: const TextStyle(fontSize: 16),
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 15),
-
-//                     /// VERIFIED
-//                     Container(
-//                       padding: const EdgeInsets.symmetric(
-//                         horizontal: 14,
-//                         vertical: 8,
-//                       ),
-//                       decoration: BoxDecoration(
-//                         color: primaryBlue,
-//                         borderRadius: BorderRadius.circular(20),
-//                       ),
-//                       child: const Text(
-//                         "Verified Hostel",
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 25),
-
-//                     /// PRICE + RATING
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const Text(
-//                               "Monthly Rent",
-//                               style: TextStyle(color: Colors.grey),
-//                             ),
-//                             const SizedBox(height: 5),
-//                             Text(
-//                               "Tk ${hostel["price"] ?? 0}",
-//                               style: TextStyle(
-//                                 fontSize: 22,
-//                                 fontWeight: FontWeight.bold,
-//                                 color: primaryBlue,
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const Text(
-//                               "Rating",
-//                               style: TextStyle(color: Colors.grey),
-//                             ),
-//                             const SizedBox(height: 5),
-//                             Row(
-//                               children: [
-//                                 const Icon(Icons.star, color: Colors.orange),
-//                                 const SizedBox(width: 5),
-//                                 Text(
-//                                   "${hostel["rating"] ?? 0}",
-//                                   style: const TextStyle(
-//                                     fontSize: 20,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     /// ROOM DETAILS
-//                     sectionTitle("Room Details", primaryBlue),
-//                     const SizedBox(height: 12),
-
-//                     detailsCard(
-//                       Icons.bed,
-//                       "Room Type",
-//                       hostel["roomType"] ?? "N/A",
-//                     ),
-
-//                     detailsCard(
-//                       Icons.people,
-//                       "Capacity",
-//                       hostel["capacity"] ?? "N/A",
-//                     ),
-
-//                     detailsCard(
-//                       Icons.school,
-//                       "Department Preference",
-//                       hostel["department"] ?? "N/A",
-//                     ),
-
-//                     const SizedBox(height: 25),
-
-//                     /// FACILITIES
-//                     sectionTitle("Facilities", primaryBlue),
-//                     const SizedBox(height: 15),
-
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         facilityBox(
-//                           Icons.wifi,
-//                           "WiFi",
-//                           primaryBlue,
-//                           hostel["wifi"] == true,
-//                         ),
-//                         facilityBox(
-//                           Icons.local_dining,
-//                           "Meals",
-//                           primaryBlue,
-//                           hostel["meals"] == true,
-//                         ),
-//                         facilityBox(
-//                           Icons.security,
-//                           "Security",
-//                           primaryBlue,
-//                           hostel["security"] == true,
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     /// EXPERIENCE
-//                     sectionTitle("Student Experience", primaryBlue),
-//                     const SizedBox(height: 10),
-
-//                     Container(
-//                       padding: const EdgeInsets.all(16),
-//                       decoration: BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.circular(20),
-//                       ),
-//                       child: Text(
-//                         hostel["experience"] ??
-//                             "No student feedback available.",
-//                         style: const TextStyle(fontSize: 15, height: 1.5),
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     /// BUTTONS
-//                     Row(
-//                       children: [
-//                         Expanded(
-//                           child: ElevatedButton(
-//                             style: ElevatedButton.styleFrom(
-//                               backgroundColor: primaryBlue,
-//                               padding: const EdgeInsets.symmetric(vertical: 15),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(15),
-//                               ),
-//                             ),
-//                             onPressed: () {},
-//                             child: const Text(
-//                               "Contact Owner",
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                         ),
-//                         const SizedBox(width: 15),
-//                         Expanded(
-//                           child: ElevatedButton(
-//                             style: ElevatedButton.styleFrom(
-//                               backgroundColor: Colors.green,
-//                               padding: const EdgeInsets.symmetric(vertical: 15),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(15),
-//                               ),
-//                             ),
-//                             onPressed: () {},
-//                             child: const Text(
-//                               "Book Now",
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 20),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   /// SECTION TITLE
-//   Widget sectionTitle(String title, Color color) {
-//     return Text(
-//       title,
-//       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color),
-//     );
-//   }
-
-//   /// DETAILS CARD
-//   Widget detailsCard(IconData icon, String title, String value) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       padding: const EdgeInsets.all(15),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(18),
-//       ),
-//       child: Row(
-//         children: [
-//           Icon(icon, color: const Color(0xFF003366)),
-//           const SizedBox(width: 15),
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(title, style: const TextStyle(color: Colors.grey)),
-//               const SizedBox(height: 4),
-//               Text(
-//                 value,
-//                 style: const TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 16,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   /// FACILITY BOX
-//   Widget facilityBox(IconData icon, String title, Color color, bool active) {
-//     return Container(
-//       width: 100,
-//       height: 100,
-//       decoration: BoxDecoration(
-//         color: active ? Colors.white : Colors.grey.shade300,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(icon, color: active ? color : Colors.grey, size: 32),
-//           const SizedBox(height: 10),
-//           Text(
-//             title,
-//             style: TextStyle(
-//               color: active ? color : Colors.grey,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'appdata_page.dart';
-
-// class HostelDetailsPage extends StatefulWidget {
-//   final Map<String, dynamic> hostel;
-
-//   const HostelDetailsPage({super.key, required this.hostel});
-
-//   @override
-//   State<HostelDetailsPage> createState() => _HostelDetailsPageState();
-// }
-
-// class _HostelDetailsPageState extends State<HostelDetailsPage> {
-//   final Color primaryBlue = const Color(0xFF003366);
-
-//   bool isSaved = false;
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     isSaved = AppData.savedHostels.any((h) => h["id"] == widget.hostel["id"]);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xFFEAF4FF),
-
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-
-//             children: [
-//               /// TOP IMAGE
-//               Stack(
-//                 children: [
-//                   ClipRRect(
-//                     borderRadius: const BorderRadius.only(
-//                       bottomLeft: Radius.circular(25),
-//                       bottomRight: Radius.circular(25),
-//                     ),
-//                     child: Image.network(
-//                       widget.hostel["image"] ??
-//                           "https://via.placeholder.com/400",
-//                       height: 280,
-//                       width: double.infinity,
-//                       fit: BoxFit.cover,
-//                     ),
-//                   ),
-
-//                   /// BACK BUTTON
-//                   Positioned(
-//                     top: 15,
-//                     left: 15,
-//                     child: CircleAvatar(
-//                       backgroundColor: Colors.white,
-//                       child: IconButton(
-//                         icon: Icon(Icons.arrow_back, color: primaryBlue),
-//                         onPressed: () {
-//                           Navigator.pop(context);
-//                         },
-//                       ),
-//                     ),
-//                   ),
-
-//                   /// SAVE BUTTON
-//                   Positioned(
-//                     top: 15,
-//                     right: 15,
-//                     child: CircleAvatar(
-//                       backgroundColor: Colors.white,
-//                       child: IconButton(
-//                         icon: Icon(
-//                           isSaved ? Icons.favorite : Icons.favorite_border,
-//                           color: isSaved ? Colors.red : primaryBlue,
-//                         ),
-
-//                         onPressed: () {
-//                           setState(() {
-//                             final exists = AppData.savedHostels.any(
-//                               (h) => h["id"] == widget.hostel["id"],
-//                             );
-
-//                             if (exists) {
-//                               AppData.savedHostels.removeWhere(
-//                                 (h) => h["id"] == widget.hostel["id"],
-//                               );
-//                               isSaved = false;
-//                             } else {
-//                               AppData.savedHostels.add(widget.hostel);
-//                               isSaved = true;
-//                             }
-//                           });
-
-//                           ScaffoldMessenger.of(context).showSnackBar(
-//                             SnackBar(
-//                               backgroundColor: primaryBlue,
-//                               content: Text(
-//                                 isSaved
-//                                     ? "Hostel Saved Successfully ❤️"
-//                                     : "Hostel Removed",
-//                                 style: const TextStyle(color: Colors.white),
-//                               ),
-//                             ),
-//                           );
-//                         },
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-
-//               Padding(
-//                 padding: const EdgeInsets.all(20),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-
-//                   children: [
-//                     Text(
-//                       widget.hostel["name"] ?? "No Name",
-//                       style: TextStyle(
-//                         fontSize: 28,
-//                         fontWeight: FontWeight.bold,
-//                         color: primaryBlue,
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 8),
-
-//                     Row(
-//                       children: [
-//                         Icon(Icons.location_on, color: primaryBlue, size: 20),
-//                         const SizedBox(width: 5),
-//                         Text(
-//                           widget.hostel["location"] ?? "No Location",
-//                           style: const TextStyle(fontSize: 16),
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 15),
-
-//                     Container(
-//                       padding: const EdgeInsets.symmetric(
-//                         horizontal: 14,
-//                         vertical: 8,
-//                       ),
-//                       decoration: BoxDecoration(
-//                         color: primaryBlue,
-//                         borderRadius: BorderRadius.circular(20),
-//                       ),
-//                       child: const Text(
-//                         "Verified Hostel",
-//                         style: TextStyle(
-//                           color: Colors.white,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 25),
-
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const Text(
-//                               "Monthly Rent",
-//                               style: TextStyle(color: Colors.grey),
-//                             ),
-//                             const SizedBox(height: 5),
-//                             Text(
-//                               "Tk ${widget.hostel["price"] ?? 0}",
-//                               style: TextStyle(
-//                                 fontSize: 22,
-//                                 fontWeight: FontWeight.bold,
-//                                 color: primaryBlue,
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const Text(
-//                               "Rating",
-//                               style: TextStyle(color: Colors.grey),
-//                             ),
-//                             const SizedBox(height: 5),
-//                             Row(
-//                               children: [
-//                                 const Icon(Icons.star, color: Colors.orange),
-//                                 const SizedBox(width: 5),
-//                                 Text(
-//                                   "${widget.hostel["rating"] ?? 0}",
-//                                   style: const TextStyle(
-//                                     fontSize: 20,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     sectionTitle("Room Details", primaryBlue),
-//                     const SizedBox(height: 12),
-
-//                     detailsCard(
-//                       Icons.bed,
-//                       "Room Type",
-//                       widget.hostel["roomType"] ?? "N/A",
-//                     ),
-//                     detailsCard(
-//                       Icons.people,
-//                       "Capacity",
-//                       widget.hostel["capacity"] ?? "N/A",
-//                     ),
-//                     detailsCard(
-//                       Icons.school,
-//                       "Department Preference",
-//                       widget.hostel["department"] ?? "N/A",
-//                     ),
-
-//                     const SizedBox(height: 25),
-
-//                     sectionTitle("Facilities", primaryBlue),
-//                     const SizedBox(height: 15),
-
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         facilityBox(
-//                           Icons.wifi,
-//                           "WiFi",
-//                           primaryBlue,
-//                           widget.hostel["wifi"] == true,
-//                         ),
-//                         facilityBox(
-//                           Icons.local_dining,
-//                           "Meals",
-//                           primaryBlue,
-//                           widget.hostel["meals"] == true,
-//                         ),
-//                         facilityBox(
-//                           Icons.security,
-//                           "Security",
-//                           primaryBlue,
-//                           widget.hostel["security"] == true,
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     sectionTitle("Student Experience", primaryBlue),
-//                     const SizedBox(height: 10),
-
-//                     Container(
-//                       padding: const EdgeInsets.all(16),
-//                       decoration: BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.circular(20),
-//                       ),
-//                       child: Text(
-//                         widget.hostel["experience"] ??
-//                             "No student feedback available.",
-//                         style: const TextStyle(fontSize: 15, height: 1.5),
-//                       ),
-//                     ),
-
-//                     const SizedBox(height: 30),
-
-//                     Row(
-//                       children: [
-//                         Expanded(
-//                           child: ElevatedButton(
-//                             style: ElevatedButton.styleFrom(
-//                               backgroundColor: primaryBlue,
-//                               padding: const EdgeInsets.symmetric(vertical: 15),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(15),
-//                               ),
-//                             ),
-//                             onPressed: () {},
-//                             child: const Text(
-//                               "Contact Owner",
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                         ),
-//                         const SizedBox(width: 15),
-//                         Expanded(
-//                           child: ElevatedButton(
-//                             style: ElevatedButton.styleFrom(
-//                               backgroundColor: Colors.green,
-//                               padding: const EdgeInsets.symmetric(vertical: 15),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(15),
-//                               ),
-//                             ),
-//                             onPressed: () {},
-//                             child: const Text(
-//                               "Book Now",
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-
-//                     const SizedBox(height: 20),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget sectionTitle(String title, Color color) {
-//     return Text(
-//       title,
-//       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color),
-//     );
-//   }
-
-//   Widget detailsCard(IconData icon, String title, String value) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       padding: const EdgeInsets.all(15),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(18),
-//       ),
-//       child: Row(
-//         children: [
-//           Icon(icon, color: primaryBlue),
-//           const SizedBox(width: 15),
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(title, style: const TextStyle(color: Colors.grey)),
-//               const SizedBox(height: 4),
-//               Text(
-//                 value,
-//                 style: const TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 16,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget facilityBox(IconData icon, String title, Color color, bool active) {
-//     return Container(
-//       width: 100,
-//       height: 100,
-//       decoration: BoxDecoration(
-//         color: active ? Colors.white : Colors.grey.shade300,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(icon, color: active ? color : Colors.grey, size: 32),
-//           const SizedBox(height: 10),
-//           Text(
-//             title,
-//             style: TextStyle(
-//               color: active ? color : Colors.grey,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
-import 'appdata_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'roomdetails_page.dart';
 
 class HostelDetailsPage extends StatefulWidget {
   final Map<String, dynamic> hostel;
-
   const HostelDetailsPage({super.key, required this.hostel});
 
   @override
@@ -757,390 +12,313 @@ class HostelDetailsPage extends StatefulWidget {
 }
 
 class _HostelDetailsPageState extends State<HostelDetailsPage> {
-  final Color primaryBlue = const Color(0xFF003366);
+  String s(dynamic val, [String def = '']) => val?.toString() ?? def;
+  int i(dynamic val, [int def = 0]) {
+    if (val is int) return val;
+    if (val is double) return val.toInt();
+    if (val is String) return int.tryParse(val) ?? def;
+    return def;
+  }
 
   bool isSaved = false;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
+    _checkIfSaved();
+  }
 
-    isSaved = AppData.savedHostels.any((h) => h["id"] == widget.hostel["id"]);
+  Future<void> _checkIfSaved() async {
+    if (user == null) return;
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('saved_hostels')
+        .doc(widget.hostel['id'])
+        .get();
+    setState(() => isSaved = doc.exists);
+  }
+
+  Future<void> _toggleSave() async {
+    if (user == null) return;
+    final ref = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('saved_hostels')
+        .doc(widget.hostel['id']);
+
+    if (isSaved) {
+      await ref.set({
+        'hostel_id': widget.hostel['id'],
+        'saved_at': FieldValue.serverTimestamp(),
+        ...widget.hostel,
+      });
+      if (!mounted) return;
+      setState(() => isSaved = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${widget.hostel['name']} remove from saved list'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      await ref.set({
+        'hostel_id': widget.hostel['id'],
+        'saved_at': FieldValue.serverTimestamp(),
+        ...widget.hostel,
+      });
+      if (!mounted) return;
+      setState(() => isSaved = true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${widget.hostel['name']} saved successfully'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // FIX 1: Bool field check korbo, list na
+  bool hasFacility(String key) {
+    final val = widget.hostel[key];
+    if (val is bool) return val;
+    if (val is int) return val == 1;
+    if (val is String) return val.toLowerCase() == 'true' || val == '1';
+    return false;
+  }
+
+  // FIX 3: Bluish shadow + color add
+  Widget _buildFacilityIcon(String label, IconData icon, String key) {
+    final active = hasFacility(key);
+    final Color primaryBlue = const Color(0xFF003366);
+
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: active ? primaryBlue.withOpacity(0.15) : Colors.grey[200],
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: active ? primaryBlue : Colors.grey[600],
+            size: 24,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            color: active ? primaryBlue : Colors.grey[600],
+            fontWeight: active ? FontWeight.bold : FontWeight.normal,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // ✅ REAL-TIME SYNC FIX (IMPORTANT)
-    final bool currentSavedState = AppData.savedHostels.any(
-      (h) => h["id"] == widget.hostel["id"],
-    );
+    final Color primaryBlue = const Color(0xFF003366);
+    final String hostelId = s(widget.hostel['id']);
+    final String hostelName = s(widget.hostel['name'], 'Hostel');
+    final String image = s(widget.hostel['image_building']);
+    final String location = s(widget.hostel['location']);
+    final String area = s(widget.hostel['area']); // FIX 2: Area add
+    final String ownerId = s(widget.hostel['owner_id']);
 
     return Scaffold(
       backgroundColor: const Color(0xFFEAF4FF),
+      appBar: AppBar(
+        backgroundColor: primaryBlue,
+        title: Text(
+          hostelName,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isSaved ? Icons.favorite : Icons.favorite_border,
+              color: isSaved ? Colors.red : Colors.white,
+            ),
+            onPressed: _toggleSave,
+          ),
+        ],
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('rooms')
+            .where('hostel_id', isEqualTo: hostelId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text(
+                "No rooms found",
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            );
+          }
 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          final rooms = snapshot.data!.docs;
 
+          return ListView(
+            padding: const EdgeInsets.all(16),
             children: [
-              /// TOP IMAGE
-              Stack(
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  image.isNotEmpty ? image : "https://via.placeholder.com/400",
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) =>
+                      Container(height: 200, color: Colors.grey[300]),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                hostelName,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: primaryBlue,
+                ),
+              ),
+              if (area.isNotEmpty) ...[
+                const SizedBox(height: 2),
+                Text(
+                  'Area: $area',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                ),
+              ],
+              const SizedBox(height: 4),
+              Text(
+                'Location:$location',
+                style: TextStyle(color: Colors.grey[700]),
+              ),
+
+              const SizedBox(height: 24),
+              Text(
+                "Facilities",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: primaryBlue,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 20,
+                runSpacing: 16,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(25),
-                      bottomRight: Radius.circular(25),
-                    ),
-                    child: Image.network(
-                      widget.hostel["image"] ??
-                          "https://via.placeholder.com/400",
-                      height: 280,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                  _buildFacilityIcon("WiFi", Icons.wifi, "wifi"),
+                  _buildFacilityIcon("CCTV", Icons.security, "security_cctv"),
+                  _buildFacilityIcon(
+                    "Laundry",
+                    Icons.local_laundry_service,
+                    "laundry",
                   ),
-
-                  /// BACK BUTTON
-                  Positioned(
-                    top: 15,
-                    left: 15,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: primaryBlue),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                  _buildFacilityIcon(
+                    "Water",
+                    Icons.water_drop,
+                    "drinking_water",
                   ),
-
-                  /// SAVE BUTTON
-                  Positioned(
-                    top: 15,
-                    right: 15,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: Icon(
-                          currentSavedState
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: currentSavedState ? Colors.red : primaryBlue,
-                        ),
-
-                        onPressed: () {
-                          setState(() {
-                            final exists = AppData.savedHostels.any(
-                              (h) => h["id"] == widget.hostel["id"],
-                            );
-
-                            if (exists) {
-                              AppData.savedHostels.removeWhere(
-                                (h) => h["id"] == widget.hostel["id"],
-                              );
-                              isSaved = false;
-                            } else {
-                              AppData.savedHostels.add(widget.hostel);
-                              isSaved = true;
-                            }
-                          });
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: primaryBlue,
-                              content: Text(
-                                currentSavedState
-                                    ? "Hostel Removed from saved list"
-                                    : "Hostel Saved Successfully ❤️",
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                  _buildFacilityIcon("Meal", Icons.restaurant, "meal_service"),
                 ],
               ),
 
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Text(
-                      widget.hostel["name"] ?? "No Name",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: primaryBlue,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, color: primaryBlue, size: 20),
-                        const SizedBox(width: 5),
-                        Text(
-                          widget.hostel["location"] ?? "No Location",
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: primaryBlue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        "Verified Hostel",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Monthly Rent",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              "Tk ${widget.hostel["price"] ?? 0}",
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: primaryBlue,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Rating",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Icon(Icons.star, color: Colors.orange),
-                                const SizedBox(width: 5),
-                                Text(
-                                  "${widget.hostel["rating"] ?? 0}",
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    sectionTitle("Room Details", primaryBlue),
-                    const SizedBox(height: 12),
-
-                    detailsCard(
-                      Icons.bed,
-                      "Room Type",
-                      widget.hostel["roomType"] ?? "N/A",
-                    ),
-                    detailsCard(
-                      Icons.people,
-                      "Capacity",
-                      widget.hostel["capacity"] ?? "N/A",
-                    ),
-                    detailsCard(
-                      Icons.school,
-                      "Department Preference",
-                      widget.hostel["department"] ?? "N/A",
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    sectionTitle("Facilities", primaryBlue),
-                    const SizedBox(height: 15),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        facilityBox(
-                          Icons.wifi,
-                          "WiFi",
-                          primaryBlue,
-                          widget.hostel["wifi"] == true,
-                        ),
-                        facilityBox(
-                          Icons.local_dining,
-                          "Meals",
-                          primaryBlue,
-                          widget.hostel["meals"] == true,
-                        ),
-                        facilityBox(
-                          Icons.security,
-                          "Security",
-                          primaryBlue,
-                          widget.hostel["security"] == true,
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    sectionTitle("Student Experience", primaryBlue),
-                    const SizedBox(height: 10),
-
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        widget.hostel["experience"] ??
-                            "No student feedback available.",
-                        style: const TextStyle(fontSize: 15, height: 1.5),
-                      ),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryBlue,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "Contact Owner",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "Book Now",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget sectionTitle(String title, Color color) {
-    return Text(
-      title,
-      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color),
-    );
-  }
-
-  Widget detailsCard(IconData icon, String title, String value) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: primaryBlue),
-          const SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: const TextStyle(color: Colors.grey)),
-              const SizedBox(height: 4),
+              const SizedBox(height: 24),
               Text(
-                value,
-                style: const TextStyle(
+                "Available Rooms",
+                style: TextStyle(
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  color: primaryBlue,
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+              const SizedBox(height: 12),
+              ...rooms.map((doc) {
+                final room = doc.data() as Map<String, dynamic>;
+                room['id'] = doc.id;
+                final roomNumber = s(room['room_number'], 'Room');
+                final rent = i(room['monthly_rent']);
+                final roomId = doc.id;
 
-  Widget facilityBox(IconData icon, String title, Color color, bool active) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        color: active ? Colors.white : Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: active ? color : Colors.grey, size: 32),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: TextStyle(
-              color: active ? color : Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => RoomDetailsPage(
+                          room: room,
+                          roomId: roomId,
+                          hostel: widget.hostel,
+                          ownerId: ownerId,
+                          ownerName: s(widget.hostel['owner_name'], 'Owner'),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(color: Colors.black12, blurRadius: 4),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Room $roomNumber",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "Tk $rent / month",
+                              style: TextStyle(
+                                color: primaryBlue,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: primaryBlue,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ],
+          );
+        },
       ),
     );
   }
