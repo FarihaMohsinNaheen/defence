@@ -930,7 +930,7 @@ class _MyListingsPageState extends State<MyListingsPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Firestore index create korte hobe. Nicher button e click koro.",
+                        "Need to create firebase index.",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey[600]),
                       ),
@@ -1047,15 +1047,12 @@ class _MyListingsPageState extends State<MyListingsPage> {
                     .where('hostel_id', isEqualTo: doc.id)
                     .get(),
                 builder: (context, roomSnapshot) {
-                  int roomCount = 0;
+                  // ignore: unused_local_variable
                   int availableRooms = 0;
-                  int availableBeds = 0;
-                  int minRent = 0;
                   String? firstRoomImage;
 
                   if (roomSnapshot.hasData &&
                       roomSnapshot.data!.docs.isNotEmpty) {
-                    roomCount = roomSnapshot.data!.docs.length;
                     List<int> rents = [];
                     for (var roomDoc in roomSnapshot.data!.docs) {
                       final roomData = roomDoc.data() as Map;
@@ -1069,7 +1066,6 @@ class _MyListingsPageState extends State<MyListingsPage> {
 
                       if (roomAvailable && booked < beds) {
                         availableRooms++;
-                        availableBeds += (beds - booked);
                       }
 
                       rents.add(_get<int>(roomData, 'monthly_rent', 0));
@@ -1079,7 +1075,6 @@ class _MyListingsPageState extends State<MyListingsPage> {
                       }
                     }
                     rents.sort();
-                    minRent = rents.isNotEmpty ? rents.first : 0;
                   }
 
                   return Card(
@@ -1098,18 +1093,7 @@ class _MyListingsPageState extends State<MyListingsPage> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child:
-                                    firstRoomImage != null &&
-                                        firstRoomImage.isNotEmpty
-                                    ? Image.network(
-                                        firstRoomImage,
-                                        width: 70,
-                                        height: 70,
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) =>
-                                            _placeholderIcon(Icons.bed),
-                                      )
-                                    : buildingImage.isNotEmpty
+                                child: buildingImage.isNotEmpty
                                     ? Image.network(
                                         buildingImage,
                                         width: 70,
@@ -1117,6 +1101,16 @@ class _MyListingsPageState extends State<MyListingsPage> {
                                         fit: BoxFit.cover,
                                         errorBuilder: (_, __, ___) =>
                                             _placeholderIcon(Icons.home),
+                                      )
+                                    : firstRoomImage != null &&
+                                          firstRoomImage.isNotEmpty
+                                    ? Image.network(
+                                        firstRoomImage,
+                                        width: 70,
+                                        height: 70,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, __, ___) =>
+                                            _placeholderIcon(Icons.bed),
                                       )
                                     : _placeholderIcon(Icons.home),
                               ),

@@ -38,6 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? selectedDepartment;
   String? selectedLifestyle;
+  String? selectedGender;
 
   @override
   void dispose() {
@@ -78,6 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'email': email,
         'phone': phone,
         'role': widget.role.toLowerCase(),
+        'gender': selectedGender,
         'created_at': FieldValue.serverTimestamp(),
       };
 
@@ -279,7 +281,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       InputField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
-                        labelText: "Phone Number *",
+                        labelText: "Phone Number",
                         hintText: "01XXXXXXXXX",
                         prefixIcon: Icons.phone,
                         maxLength: 11,
@@ -296,10 +298,32 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       const SizedBox(height: 15),
 
+                      _buildDropdownBox(
+                        label: "Gender",
+                        value: selectedGender,
+                        icon: Icons.wc,
+                        items: const [
+                          DropdownMenuItem(value: "Male", child: Text("Male")),
+                          DropdownMenuItem(
+                            value: "Female",
+                            child: Text("Female"),
+                          ),
+                          DropdownMenuItem(
+                            value: "Other",
+                            child: Text("Other"),
+                          ),
+                        ],
+                        onChanged: (value) =>
+                            setState(() => selectedGender = value),
+                        validator: (v) => v == null ? "Select gender" : null,
+                      ),
+
+                      const SizedBox(height: 15),
+
                       if (widget.role.toLowerCase() == "owner") ...[
                         InputField(
                           controller: _businessNameController,
-                          labelText: "Business Name *",
+                          labelText: "Business Name",
                           hintText: "Enter your hostel/business name",
                           prefixIcon: Icons.business,
                           validator: (v) => (v == null || v.trim().isEmpty)
@@ -344,7 +368,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (widget.role == "student") ...[
                         const SizedBox(height: 15),
                         _buildDropdownBox(
-                          label: "Department *",
+                          label: "Department",
                           value: selectedDepartment,
                           icon: Icons.school,
                           items: const [
@@ -373,7 +397,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         const SizedBox(height: 15),
                         _buildDropdownBox(
-                          label: "Lifestyle *",
+                          label: "Lifestyle",
                           value: selectedLifestyle,
                           icon: Icons.people,
                           items: const [

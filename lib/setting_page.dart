@@ -1,193 +1,304 @@
 import 'package:flutter/material.dart';
-import 'help&support_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nan_nestfinder/help&support_page.dart';
+import 'package:nan_nestfinder/home_page.dart';
+import 'package:nan_nestfinder/login_page.dart';
+import 'package:nan_nestfinder/student_aboutus_page.dart';
+import 'package:nan_nestfinder/student_privacypolicy_page.dart';
+import 'main.dart';
+import 'profile_page.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+class StudentSettingsPage extends StatefulWidget {
+  const StudentSettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<StudentSettingsPage> createState() => _StudentSettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _StudentSettingsPageState extends State<StudentSettingsPage> {
   final Color primaryBlue = const Color(0xFF003366);
+  final user = FirebaseAuth.instance.currentUser;
+  bool _notificationsEnabled = true;
+  bool _darkMode = false;
+  bool _loading = true;
+  final String adminEmail = "adminnannestfinder@gmail.com";
 
-  int currentIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
 
-  bool notifications = true;
-  bool locationAccess = true;
+  _loadSettings() async {
+    if (user == null) return;
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get();
+      if (mounted && doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        setState(() {
+          _notificationsEnabled = data['notifications_enabled'] ?? true;
+          _darkMode = data['dark_mode'] ?? false;
+          _loading = false;
+        });
+        themeNotifier.value = _darkMode ? ThemeMode.dark : ThemeMode.light;
+      } else {
+        setState(() => _loading = false);
+      }
+    } catch (e) {
+      setState(() => _loading = false);
+    }
+  }
 
-  String selectedLanguage = "English";
+  Future<void> _updateSetting(String key, bool value) async {
+    if (user == null) return;
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+      key: value,
+    });
+  }
+
+  void _logout() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Logout"),
+        content: const Text("Are you sure you want to logout?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text("Logout", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await FirebaseAuth.instance.signOut();
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LoginPage(role: 'student'),
+        ), // FIX: student not owner
+        (route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(color: primaryBlue)),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: primaryBlue,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: primaryBlue),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomePage()),
+          ),
         ),
-        title: Text(
+        title: const Text(
           "Settings",
-          style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            /// PROFILE CARD
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundColor: primaryBlue,
-                    child: const Icon(
-                      Icons.person,
-                      size: 40,
-                      color: Colors.white,
+        children: [
+          // 1. Account
+          _buildSectionTitle("Account"),
+          Card(
+            color: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              children: [
+                _buildNavTile(
+                  Icons.person_outline,
+                  'Edit Profile',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudentProfilePage(),
                     ),
                   ),
-                  const SizedBox(width: 15),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Fariha Naheen",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                ),
+                const Divider(height: 1),
+                _buildNavTile(
+                  Icons.lock_outline,
+                  'Change Password',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudentProfilePage(),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                _buildNavTile(
+                  Icons.email_outlined,
+                  'Change Email',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudentProfilePage(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // 2. App Preferences
+          _buildSectionTitle("Preferences"),
+          Card(
+            color: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              children: [
+                SwitchListTile(
+                  secondary: Icon(
+                    Icons.notifications_outlined,
+                    color: primaryBlue,
+                  ),
+                  title: const Text('In-app Notifications'),
+                  subtitle: const Text('Booking & chat updates'),
+                  value: _notificationsEnabled,
+                  activeColor: primaryBlue,
+                  onChanged: (val) {
+                    setState(() => _notificationsEnabled = val);
+                    _updateSetting('notifications_enabled', val);
+                  },
+                ),
+                const Divider(height: 1),
+                SwitchListTile(
+                  secondary: Icon(Icons.dark_mode_outlined, color: primaryBlue),
+                  title: const Text('Dark Mode'),
+                  value: _darkMode,
+                  activeColor: primaryBlue,
+                  onChanged: (val) {
+                    setState(() => _darkMode = val);
+                    _updateSetting('dark_mode', val);
+                    themeNotifier.value = val
+                        ? ThemeMode.dark
+                        : ThemeMode.light;
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // 3. Support
+          _buildSectionTitle("Support"),
+          Card(
+            color: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              children: [
+                _buildNavTile(
+                  Icons.help_outline,
+                  'Help & FAQ',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HelpSupportPage()),
+                  ),
+                ),
+                const Divider(height: 1),
+                _buildNavTile(
+                  Icons.info_outline,
+                  'About Us',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudentAboutUsPage(),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: Icon(Icons.support_agent, color: primaryBlue),
+                  title: const Text('Contact Support'),
+                  subtitle: Text(adminEmail),
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: const Text("Contact Support"),
+                      content: Text("Email us at:\n$adminEmail"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("OK"),
                         ),
-                        SizedBox(height: 5),
-                        Text("fariha@gmail.com"),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                const Divider(height: 1),
+                _buildNavTile(
+                  Icons.privacy_tip_outlined,
+                  'Privacy Policy',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const StudentPrivacypolicyPage(),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
+          const SizedBox(height: 30),
 
-            const SizedBox(height: 25),
-
-            buildTitle("Account Settings"),
-            const SizedBox(height: 15),
-
-            buildTile(Icons.person_outline, "Edit Profile", () {}),
-            buildTile(Icons.lock_outline, "Change Password", () {}),
-            buildTile(Icons.favorite_border, "Saved Hostels", () {}),
-
-            const SizedBox(height: 25),
-
-            buildTitle("App Settings"),
-            const SizedBox(height: 15),
-
-            buildSwitchTile(
-              Icons.notifications_none,
-              "Notifications",
-              notifications,
-              (value) => setState(() => notifications = value),
-            ),
-
-            buildSwitchTile(
-              Icons.location_on_outlined,
-              "Location Access",
-              locationAccess,
-              (value) => setState(() => locationAccess = value),
-            ),
-
-            const SizedBox(height: 25),
-
-            buildTitle("Language"),
-            const SizedBox(height: 15),
-
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+          // 4. Logout Button - Added
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedLanguage,
-                  isExpanded: true,
-                  items: ["English", "বাংলা"].map((language) {
-                    return DropdownMenuItem(
-                      value: language,
-                      child: Text(language),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedLanguage = value!;
-                    });
-                  },
-                ),
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
             ),
-
-            const SizedBox(height: 25),
-
-            buildTitle("Support"),
-            const SizedBox(height: 15),
-
-            buildTile(Icons.help_outline, "Help & Support", () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const HelpSupportPage()),
-              );
-            }),
-            buildTile(Icons.info_outline, "About App", () {}),
-            buildTile(Icons.policy_outlined, "Privacy Policy", () {}),
-
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  "Logout",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+            onPressed: _logout, // calls the confirm dialog
+            child: const Text(
+              'Logout',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-
-            const SizedBox(height: 30),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildTitle(String title) {
-    return Align(
-      alignment: Alignment.centerLeft,
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 22,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
           color: primaryBlue,
         ),
@@ -195,41 +306,12 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget buildTile(IconData icon, String title, VoidCallback onTap) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: ListTile(
-        leading: Icon(icon, color: primaryBlue),
-        title: Text(title),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-        onTap: onTap,
-      ),
-    );
-  }
-
-  Widget buildSwitchTile(
-    IconData icon,
-    String title,
-    bool value,
-    Function(bool) onChanged,
-  ) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: SwitchListTile(
-        secondary: Icon(icon, color: primaryBlue),
-        title: Text(title),
-        value: value,
-        activeThumbColor: primaryBlue,
-        onChanged: onChanged,
-      ),
+  Widget _buildNavTile(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: primaryBlue),
+      title: Text(title),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap,
     );
   }
 }

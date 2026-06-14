@@ -133,7 +133,7 @@ class _OwnerDashboardPageState extends State<OwnerDashboardPage> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const OwnerSettingsPage()),
+                  MaterialPageRoute(builder: (_) => const OwnerSettingPage()),
                 );
               },
             ),

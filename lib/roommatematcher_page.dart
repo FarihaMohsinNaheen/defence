@@ -18,6 +18,7 @@ class _RoommateMatchingPageState extends State<RoommateMatchingPage> {
 
   String selectedDepartment = "";
   List<String> selectedLifestyle = [];
+  String selectedGender = "";
   bool showResults = false;
   bool isLoading = true;
 
@@ -25,6 +26,7 @@ class _RoommateMatchingPageState extends State<RoommateMatchingPage> {
 
   final List<String> departments = ["CSE", "EEE", "BBA", "English"];
   final List<String> lifestyles = ["Study-focused", "Quiet", "Social"];
+  final List<String> genders = ["Boys", "Girls"];
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final User? _currentUser = FirebaseAuth.instance.currentUser;
@@ -209,6 +211,49 @@ class _RoommateMatchingPageState extends State<RoommateMatchingPage> {
                           ),
                           child: Text(
                             life,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : primaryBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    "Select Gender",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: primaryBlue,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 10,
+                    children: genders.map((gender) {
+                      bool isSelected = selectedGender == gender;
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedGender = isSelected ? "" : gender; // toggle
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected ? primaryBlue : Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: primaryBlue.withOpacity(0.2),
+                            ),
+                          ),
+                          child: Text(
+                            gender,
                             style: TextStyle(
                               color: isSelected ? Colors.white : primaryBlue,
                               fontWeight: FontWeight.bold,

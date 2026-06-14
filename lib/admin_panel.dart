@@ -49,6 +49,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
         ),
         bottom: TabBar(
           controller: _tabController,
+          isScrollable: true,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           indicatorColor: Colors.white,
@@ -295,7 +296,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                   ),
                                   const SizedBox(height: 12),
 
-                                  // 3. Approve/Reject buttons - apnar ager code same rakhben
+                                  // 3. Approve/Reject buttons
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                       16,
@@ -306,7 +307,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        // ✅ FIX 1: Approve button also updates all rooms
+                                        // Approve button also updates all rooms
                                         ElevatedButton(
                                           onPressed: () async {
                                             try {
@@ -345,7 +346,56 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                                 });
                                               }
 
-                                              // 3. Ekta commit = sob kaj ek sathe
+                                              //notification part
+                                              final students =
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('users')
+                                                      .where(
+                                                        'role',
+                                                        isEqualTo: 'student',
+                                                      )
+                                                      .get();
+
+                                              for (var student
+                                                  in students.docs) {
+                                                await FirebaseFirestore.instance
+                                                    .collection('notifications')
+                                                    .add({
+                                                      'user_id': student.id,
+                                                      'type': 'new_hostel',
+                                                      'title':
+                                                          'New Hostel Available!',
+                                                      'desc':
+                                                          '$name has been added near you. Check it out now.',
+                                                      'time':
+                                                          FieldValue.serverTimestamp(),
+                                                      'read': false,
+                                                      'data': {
+                                                        'hostel_id': hostelId,
+                                                      },
+                                                    });
+                                              } //
+
+                                              //  OWNER notification
+                                              final ownerNotifRef =
+                                                  FirebaseFirestore.instance
+                                                      .collection(
+                                                        'owner_notifications',
+                                                      )
+                                                      .doc();
+                                              batch.set(ownerNotifRef, {
+                                                'user_id':
+                                                    ownerId, // hostel doc থেকে পাওয়া owner_id
+                                                'type': 'hostel_approved',
+                                                'title': 'Hostel Approved!',
+                                                'desc':
+                                                    '$name is now live on NestFinder',
+                                                'data': {'hostel_id': hostelId},
+                                                'time':
+                                                    FieldValue.serverTimestamp(),
+                                                'read': false,
+                                              });
                                               await batch.commit();
 
                                               if (context.mounted) {
@@ -1107,6 +1157,59 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
+                              // onPressed: ownerApproved
+                              //     ? null
+                              //     : () async {
+                              //         try {
+                              //           final monthly_rent =
+                              //               (data['monthly_rent'] ??
+                              //                       data['rent'] ??
+                              //                       0)
+                              //                   as num;
+                              //           final beds_booked =
+                              //               (data['beds_booked'] ?? 1)
+                              //                   as num; // default 1 bed
+
+                              //           // 2. Int এ convert করেন
+                              //           final int rent = monthly_rent.toInt();
+                              //           final int beds = beds_booked.toInt();
+
+                              //           // final total_rent = (amountRaw is String)
+                              //           //     ? int.tryParse(amountRaw) ?? 0
+                              //           //     : (amountRaw as num).toInt();
+                              //           final int total_rent = rent * beds;
+
+                              //           final commission =
+                              //               (total_rent * 10) ~/
+                              //               100; // Admin 10%
+                              //           final ownerAmount =
+                              //               total_rent -
+                              //               commission; // Owner 90%
+
+                              //           final payoutDate = DateTime.now().add(
+                              //             Duration(seconds: 20),
+                              //           );
+
+                              //           await FirebaseFirestore.instance
+                              //               .collection('bookings')
+                              //               .doc(bookingId)
+                              //               .update({
+                              //                 'owner_approved': true,
+                              //                 'status': 'approved',
+                              //                 'approved_at':
+                              //                     FieldValue.serverTimestamp(),
+                              //                 'payoutDate': Timestamp.fromDate(
+                              //                   payoutDate,
+                              //                 ),
+                              //                 // ignore: equal_keys_in_map
+                              //                 'hostelName':
+                              //                     data['hostel_name'] ??
+                              //                     'Unknown Hostel',
+                              //                 'total_rent': total_rent,
+                              //                 'ownerAmount': ownerAmount,
+                              //                 'adminCommission': commission,
+                              //                 'payout_status': 'pending',
+                              //               });
                               onPressed: ownerApproved
                                   ? null
                                   : () async {
@@ -1124,9 +1227,6 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                         final int rent = monthly_rent.toInt();
                                         final int beds = beds_booked.toInt();
 
-                                        // final total_rent = (amountRaw is String)
-                                        //     ? int.tryParse(amountRaw) ?? 0
-                                        //     : (amountRaw as num).toInt();
                                         final int total_rent = rent * beds;
 
                                         final commission =
@@ -1140,6 +1240,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                           Duration(seconds: 20),
                                         );
 
+                                        // 1. Booking update
                                         await FirebaseFirestore.instance
                                             .collection('bookings')
                                             .doc(bookingId)
@@ -1151,7 +1252,6 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                               'payoutDate': Timestamp.fromDate(
                                                 payoutDate,
                                               ),
-                                              // ignore: equal_keys_in_map
                                               'hostelName':
                                                   data['hostel_name'] ??
                                                   'Unknown Hostel',
@@ -1160,6 +1260,43 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                               'adminCommission': commission,
                                               'payout_status': 'pending',
                                             });
+
+                                        // 2. NEW: Owner কে notification দাও
+                                        final ownerId =
+                                            data['owner_id']; // or data['hostel']['owner_id']
+                                        final studentName =
+                                            data['student_name'] ?? 'A student';
+                                        final hostelName =
+                                            data['hostel_name'] ??
+                                            'your hostel';
+                                        final roomNo = data['room_no'] ?? '';
+
+                                        if (ownerId != null) {
+                                          await FirebaseFirestore.instance
+                                              .collection('owner_notifications')
+                                              .add({
+                                                'user_id': ownerId,
+                                                'type': 'new_booking',
+                                                'title':
+                                                    'New Booking Received!',
+                                                'desc':
+                                                    '$studentName booked $roomNo in $hostelName',
+                                                'data': {
+                                                  'booking_id': bookingId,
+                                                  'student_id':
+                                                      data['student_id'],
+                                                  'student_name': studentName,
+                                                  'hostel_id':
+                                                      data['hostel_id'],
+                                                  'hostel_name': hostelName,
+                                                  'room_no': roomNo,
+                                                  'total_rent': total_rent,
+                                                },
+                                                'time':
+                                                    FieldValue.serverTimestamp(),
+                                                'read': false,
+                                              });
+                                        }
 
                                         if (context.mounted) {
                                           ScaffoldMessenger.of(
@@ -1514,6 +1651,24 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                 'amount': amount,
                 'hostel_name': hostelName,
                 'refunded_at': FieldValue.serverTimestamp(),
+              });
+
+              // NEW: Student কে notification দাও
+              final bookingDoc = await FirebaseFirestore.instance
+                  .collection('bookings')
+                  .doc(bookingId)
+                  .get();
+              final studentUid = bookingDoc.get('student_id');
+
+              await FirebaseFirestore.instance.collection('notifications').add({
+                'user_id': studentUid,
+                'type': 'refund',
+                'title': 'Refund Processed',
+                'desc':
+                    'Tk $amount refunded for $hostelName to bKash: $bkashNumber',
+                'time': FieldValue.serverTimestamp(),
+                'read': false,
+                'data': {'booking_id': bookingId, 'amount': amount},
               });
 
               setState(() => loading = false);
@@ -1919,6 +2074,8 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                               ? () async {
                                   final batch = FirebaseFirestore.instance
                                       .batch();
+                                  String? ownerId; // we’ll grab it once
+                                  String? hostelName; // for notification text
                                   for (var b in bookings) {
                                     batch.update(
                                       FirebaseFirestore.instance
@@ -1930,7 +2087,35 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                             FieldValue.serverTimestamp(),
                                       },
                                     );
+
+                                    // 2. ownerId + hostelName loop er bhetorei dhoro
+                                    ownerId ??=
+                                        b['owner_id']; // or b['hostel']['owner_id'] if nested
+                                    hostelName ??=
+                                        b['hostel_name']; // or b['hostel']['name']
                                   }
+
+                                  // 1. Add owner notification
+                                  if (ownerId != null) {
+                                    final notifRef = FirebaseFirestore.instance
+                                        .collection('owner_notifications')
+                                        .doc();
+                                    batch.set(notifRef, {
+                                      'user_id': ownerId,
+                                      'type': 'payout_paid',
+                                      'title': 'Payout Received!',
+                                      'desc':
+                                          'Tk. $formattedAmount for $hostelName has been credited',
+                                      'data': {
+                                        'amount': formattedAmount,
+                                        'hostel_name': hostelName,
+                                        'booking_count': bookings.length,
+                                      },
+                                      'time': FieldValue.serverTimestamp(),
+                                      'read': false,
+                                    });
+                                  }
+
                                   await batch.commit();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
