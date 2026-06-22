@@ -135,11 +135,11 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                   final doc = hostels[index];
                   final hostel = doc.data() as Map<String, dynamic>;
                   final hostelId = doc.id;
-                  final name = hostel['name'] ?? 'Green View';
-                  final location = hostel['location'] ?? 'Sylhet';
-                  final area = hostel['area'] ?? 'Subidbazar';
+                  final name = hostel['name'] ?? 'N/A';
+                  final location = hostel['location'] ?? 'N/A';
+                  final area = hostel['area'] ?? 'N/A';
                   final imageUrl = hostel['image_building'] ?? '';
-                  final status = hostel['status'] ?? 'pending';
+                  final status = hostel['status'] ?? 'N/A';
                   final ownerId = hostel['owner_id'] ?? '';
 
                   return FutureBuilder<DocumentSnapshot>(
@@ -342,7 +342,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                                 batch.update(roomDoc.reference, {
                                                   'status': 'approved',
                                                   'approvedAt':
-                                                      FieldValue.serverTimestamp(), // room eo time rakhlam
+                                                      FieldValue.serverTimestamp(),
                                                 });
                                               }
 
@@ -1422,6 +1422,10 @@ class _AdminPanelPageState extends State<AdminPanelPage>
             final bookingDate =
                 (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now();
 
+            // 24h check for refund
+            final canRefund =
+                DateTime.now().difference(bookingDate).inHours < 24;
+
             return Card(
               margin: const EdgeInsets.only(bottom: 12),
               elevation: 3,
@@ -1537,7 +1541,8 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                             ),
                           ),
                           if (refundStatus != 'refunded' &&
-                              refundAmount > 0) ...[
+                              refundAmount > 0 &&
+                              canRefund) ...[
                             const SizedBox(height: 12),
                             SizedBox(
                               width: double.infinity,
@@ -1588,6 +1593,15 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                     ),
                                   ),
                                 ],
+                              ),
+                            ),
+                          ] else if (refundAmount > 0 && !canRefund) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              "Refund Window Expired",
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
                               ),
                             ),
                           ],
@@ -1885,7 +1899,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
     );
   }
 
-  // PAYOUTS TAB - Hostel wise টাকা যোগ করে দেখাবে
+  // PAYOUTS TAB
 
   Widget _buildPayoutsTab() {
     return StreamBuilder<QuerySnapshot>(

@@ -5,6 +5,7 @@
 // import 'owner_addhostel_page.dart';
 // import 'owner_dashboard_page.dart';
 // import 'owner_profile_page.dart';
+// import 'owner_room_occupancy_page.dart';
 
 // class MyListingsPage extends StatefulWidget {
 //   const MyListingsPage({super.key});
@@ -181,7 +182,7 @@
 //                       ),
 //                       const SizedBox(height: 8),
 //                       Text(
-//                         "Firestore index create korte hobe. Nicher button e click koro.",
+//                         "Need to create firebase index.",
 //                         textAlign: TextAlign.center,
 //                         style: TextStyle(color: Colors.grey[600]),
 //                       ),
@@ -271,7 +272,7 @@
 //               final statusColor = _statusColor(status);
 //               final statusText = _statusText(status);
 //               final bool isAvailable = _get<bool>(data, 'is_available', true);
-//               final String? previousStatus = _get<String>(
+//               final String previousStatus = _get<String>(
 //                 data,
 //                 'previous_status',
 //                 '',
@@ -285,11 +286,12 @@
 //                 'location',
 //                 'No location',
 //               );
-//               final String? buildingImage = _get<String>(
+//               final String buildingImage = _get<String>(
 //                 data,
 //                 'image_building',
 //                 '',
 //               );
+//               final String area = _get<String>(data, 'area', '');
 
 //               return FutureBuilder<QuerySnapshot>(
 //                 future: FirebaseFirestore.instance
@@ -297,15 +299,12 @@
 //                     .where('hostel_id', isEqualTo: doc.id)
 //                     .get(),
 //                 builder: (context, roomSnapshot) {
-//                   int roomCount = 0;
+//                   // ignore: unused_local_variable
 //                   int availableRooms = 0;
-//                   int availableBeds = 0;
-//                   int minRent = 0;
 //                   String? firstRoomImage;
 
 //                   if (roomSnapshot.hasData &&
 //                       roomSnapshot.data!.docs.isNotEmpty) {
-//                     roomCount = roomSnapshot.data!.docs.length;
 //                     List<int> rents = [];
 //                     for (var roomDoc in roomSnapshot.data!.docs) {
 //                       final roomData = roomDoc.data() as Map;
@@ -319,7 +318,6 @@
 
 //                       if (roomAvailable && booked < beds) {
 //                         availableRooms++;
-//                         availableBeds += (beds - booked);
 //                       }
 
 //                       rents.add(_get<int>(roomData, 'monthly_rent', 0));
@@ -329,7 +327,6 @@
 //                       }
 //                     }
 //                     rents.sort();
-//                     minRent = rents.isNotEmpty ? rents.first : 0;
 //                   }
 
 //                   return Card(
@@ -348,19 +345,7 @@
 //                             children: [
 //                               ClipRRect(
 //                                 borderRadius: BorderRadius.circular(8),
-//                                 child:
-//                                     firstRoomImage != null &&
-//                                         firstRoomImage.isNotEmpty
-//                                     ? Image.network(
-//                                         firstRoomImage,
-//                                         width: 70,
-//                                         height: 70,
-//                                         fit: BoxFit.cover,
-//                                         errorBuilder: (_, __, ___) =>
-//                                             _placeholderIcon(Icons.bed),
-//                                       )
-//                                     : buildingImage != null &&
-//                                           buildingImage.isNotEmpty
+//                                 child: buildingImage.isNotEmpty
 //                                     ? Image.network(
 //                                         buildingImage,
 //                                         width: 70,
@@ -368,6 +353,16 @@
 //                                         fit: BoxFit.cover,
 //                                         errorBuilder: (_, __, ___) =>
 //                                             _placeholderIcon(Icons.home),
+//                                       )
+//                                     : firstRoomImage != null &&
+//                                           firstRoomImage.isNotEmpty
+//                                     ? Image.network(
+//                                         firstRoomImage,
+//                                         width: 70,
+//                                         height: 70,
+//                                         fit: BoxFit.cover,
+//                                         errorBuilder: (_, __, ___) =>
+//                                             _placeholderIcon(Icons.bed),
 //                                       )
 //                                     : _placeholderIcon(Icons.home),
 //                               ),
@@ -416,32 +411,16 @@
 //                                         color: Colors.grey[600],
 //                                       ),
 //                                     ),
-//                                     const SizedBox(height: 4),
-//                                     Row(
-//                                       children: [
-//                                         Text(
-//                                           roomCount > 0
-//                                               ? "$availableRooms/$roomCount rooms • $availableBeds beds available"
-//                                               : "No rooms added",
-//                                           style: TextStyle(
-//                                             fontSize: 12,
-//                                             fontWeight: FontWeight.w600,
-//                                             color: Colors.grey[700],
-//                                           ),
+//                                     if (area.isNotEmpty) ...[
+//                                       const SizedBox(height: 2),
+//                                       Text(
+//                                         area,
+//                                         style: TextStyle(
+//                                           fontSize: 12,
+//                                           color: Colors.grey[500],
 //                                         ),
-//                                         if (minRent > 0) ...[
-//                                           const SizedBox(width: 8),
-//                                           Text(
-//                                             "• From Tk $minRent/month",
-//                                             style: TextStyle(
-//                                               fontSize: 14,
-//                                               fontWeight: FontWeight.w600,
-//                                               color: primaryBlue,
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ],
-//                                     ),
+//                                       ),
+//                                     ],
 //                                   ],
 //                                 ),
 //                               ),
@@ -486,7 +465,6 @@
 //                               ),
 
 //                               if (status == 'pending' &&
-//                                   previousStatus != null &&
 //                                   previousStatus.isNotEmpty) ...[
 //                                 const SizedBox(width: 8),
 //                                 Container(
@@ -560,6 +538,35 @@
 //                               ],
 
 //                               const Spacer(),
+
+//                               ElevatedButton.icon(
+//                                 onPressed: () {
+//                                   Navigator.push(
+//                                     context,
+//                                     MaterialPageRoute(
+//                                       builder: (_) => OwnerRoomOccupancyPage(
+//                                         hostelId: doc.id,
+//                                         hostelName: name,
+//                                       ),
+//                                     ),
+//                                   );
+//                                 },
+//                                 icon: const Icon(Icons.bed, size: 16),
+//                                 label: const Text("View Rooms"),
+//                                 style: ElevatedButton.styleFrom(
+//                                   backgroundColor: primaryBlue,
+//                                   foregroundColor: Colors.white,
+//                                   padding: const EdgeInsets.symmetric(
+//                                     horizontal: 12,
+//                                     vertical: 6,
+//                                   ),
+//                                   textStyle: const TextStyle(fontSize: 12),
+//                                   shape: RoundedRectangleBorder(
+//                                     borderRadius: BorderRadius.circular(8),
+//                                   ),
+//                                 ),
+//                               ),
+//                               const SizedBox(width: 8),
 
 //                               if (status == 'approved') ...[
 //                                 GestureDetector(
@@ -663,9 +670,9 @@
 //           setState(() => currentIndex = i);
 
 //           Widget page;
-//           if (i == 0)
+//           if (i == 0) {
 //             page = const OwnerDashboardPage();
-//           else if (i == 1)
+//           } else if (i == 1)
 //             page = const MyListingsPage();
 //           else if (i == 2)
 //             page = const AddHostelPage();
@@ -680,18 +687,22 @@
 //         items: const [
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.dashboard_outlined),
+//             activeIcon: Icon(Icons.dashboard),
 //             label: "Dashboard",
 //           ),
 //           BottomNavigationBarItem(
-//             icon: Icon(Icons.list_alt),
-//             label: "My Listings",
+//             icon: Icon(Icons.list_alt_outlined),
+//             activeIcon: Icon(Icons.list_alt),
+//             label: "Hostels",
 //           ),
 //           BottomNavigationBarItem(
-//             icon: Icon(Icons.add_circle, size: 32),
+//             icon: Icon(Icons.add_circle_outline),
+//             activeIcon: Icon(Icons.add_circle),
 //             label: "Add",
 //           ),
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.person_outline),
+//             activeIcon: Icon(Icons.person),
 //             label: "Profile",
 //           ),
 //         ],
@@ -1150,6 +1161,17 @@ class _MyListingsPageState extends State<MyListingsPage> {
                                             );
                                           },
                                         ),
+                                        // ADDITION: Toggle button after pen
+                                        if (status == 'approved')
+                                          Switch(
+                                            value: isAvailable,
+                                            activeColor: Colors.green,
+                                            onChanged: (val) =>
+                                                _toggleAvailability(
+                                                  doc.id,
+                                                  isAvailable,
+                                                ),
+                                          ),
                                       ],
                                     ),
                                     Text(

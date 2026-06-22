@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:nan_nestfinder/Mybooking_page.dart';
 import 'package:nan_nestfinder/home_page.dart';
 import 'package:nan_nestfinder/owner_dashboard_page.dart';
 import 'package:nan_nestfinder/review_page.dart';
-import 'package:nan_nestfinder/roommatematcher_page.dart';
 import 'package:nan_nestfinder/admin_panel.dart';
 
 class ExperienceFeedPage extends StatefulWidget {
@@ -368,7 +368,6 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    // Admin Panel এর Tab এর ভিতর বসালে শুধু list return করবে
     if (widget.isAdminPanel) {
       return _buildReviewList();
     }
@@ -399,23 +398,22 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
               type: BottomNavigationBarType.fixed,
               onTap: (i) {
                 if (i == currentIndex) return;
-                if (i == 0)
+                if (i == 0) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => const HomePage()),
                   );
-                else if (i == 1)
+                } else if (i == 1) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => const ReviewPage()),
                   );
-                else if (i == 2)
+                } else if (i == 2) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const RoommateMatchingPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const MyBookingsPage()),
                   );
+                }
               },
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -424,8 +422,8 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
                   label: "Review",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.people),
-                  label: "Match",
+                  icon: Icon(Icons.book_online),
+                  label: "Bookings",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.dynamic_feed),

@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:nan_nestfinder/Mybooking_page.dart';
 import 'home_page.dart';
-import 'roommatematcher_page.dart';
 import 'experiencedfeed_page.dart';
 
 class ReviewPage extends StatefulWidget {
@@ -573,7 +573,7 @@ class _ReviewPageState extends State<ReviewPage> {
           } else if (i == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const RoommateMatchingPage()),
+              MaterialPageRoute(builder: (_) => const MyBookingsPage()),
             );
           } else if (i == 3) {
             Navigator.push(
@@ -585,7 +585,7 @@ class _ReviewPageState extends State<ReviewPage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.reviews), label: "Review"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Match"),
+          BottomNavigationBarItem(icon: Icon(Icons.book_online), label: "Bookings"),
           BottomNavigationBarItem(
             icon: Icon(Icons.dynamic_feed),
             label: "Experience",

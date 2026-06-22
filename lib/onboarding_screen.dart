@@ -32,9 +32,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "desc": "See honest reviews and student experiences",
     },
     {
-      "icon": Icons.group_outlined,
-      "title": "Smart Matching System",
-      "desc": "Stay with same department students",
+      "icon": Icons.payments_outlined,
+      "title": "Easy Online Booking",
+      "desc": "Book your seat instantly and pay securely online",
     },
   ];
 

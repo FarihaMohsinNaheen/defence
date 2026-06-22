@@ -218,7 +218,7 @@ class _OwnerSettingsPageState extends State<OwnerSettingPage> {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const OwnerHelpsupportPage(),
+                      builder: (_) => const OwnerHelpSupportPage(),
                     ),
                   ),
                 ),

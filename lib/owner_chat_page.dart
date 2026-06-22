@@ -11,6 +11,7 @@
 //   final String studentId;
 //   final String? hostelName;
 //   final String? roomNumber;
+//   final businessName;
 
 //   const OwnerChatPage({
 //     super.key,
@@ -20,6 +21,7 @@
 //     required this.studentId,
 //     this.hostelName,
 //     this.roomNumber,
+//     this.businessName,
 //   });
 
 //   @override
@@ -54,10 +56,10 @@
 //         .add({
 //           'senderId': user!.uid,
 //           'text': text,
-//           'bookingId': widget
-//               .bookingId, // FIXED: use camelCase to match your screenshot/reads
+//           'bookingId': widget.bookingId,
 //           'hostelName': widget.hostelName,
 //           'roomNumber': widget.roomNumber,
+//           'businessName': widget.businessName,
 //           'timestamp': FieldValue.serverTimestamp(),
 //           'read': false,
 //         });
@@ -71,6 +73,25 @@
 //           'unreadCountStudent': FieldValue.increment(1),
 //           'unreadCountOwner': 0,
 //         });
+
+//     // NEW: Student notification add
+//     await FirebaseFirestore.instance.collection('notifications').add({
+//       'user_id': widget.studentId,
+//       'type': 'message',
+//       'title': 'New message from ${user!.displayName ?? 'Owner'}',
+//       'desc': text,
+//       'time': FieldValue.serverTimestamp(),
+//       'read': false,
+//       'data': {
+//         'chat_id': widget.chatId,
+//         'owner_id': user!.uid,
+//         'business_name': widget.businessName ?? '',
+//         'student_id': widget.studentId,
+//         'hostel_name': widget.hostelName ?? '',
+//         'room_number': widget.roomNumber ?? '',
+//         'booking_id': widget.bookingId,
+//       },
+//     });
 //   }
 
 //   void _scrollToBottom() {
@@ -299,7 +320,6 @@
 //                     controller: _messageController,
 //                     maxLines: null,
 //                     onSubmitted: (_) => _sendMessage(),
-
 //                     decoration: InputDecoration(
 //                       hintText: "Type a message...",
 //                       filled: true,

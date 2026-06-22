@@ -187,6 +187,7 @@ class _AddHostelPageState extends State<AddHostelPage> {
     return {
       'phone': doc.data()?['phone'] ?? '',
       'email': doc.data()?['email'] ?? user.email ?? '',
+      'business_name': doc.data()?['business_name'] ?? '',
     };
   }
 
@@ -265,6 +266,7 @@ class _AddHostelPageState extends State<AddHostelPage> {
         'owner_id': user.uid,
         'owner_phone': ownerInfo['phone'],
         'owner_email': ownerInfo['email'],
+        'business_name': ownerInfo['business_name'],
         'name': hostelNameController.text.trim(),
         'location': locationController.text.trim(),
         'area': areaController.text.trim(),
@@ -431,138 +433,6 @@ class _AddHostelPageState extends State<AddHostelPage> {
     );
   }
 
-  // Widget buildHostelInfoStep() {
-  //   return SingleChildScrollView(
-  //     padding: const EdgeInsets.all(16),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         _buildSection("🏠 Basic Information", [
-  //           _buildInput(hostelNameController, "Hostel Name", Icons.home),
-  //           const SizedBox(height: 12),
-  //           _buildInput(locationController, "Location", Icons.location_on),
-  //           const SizedBox(height: 12),
-  //           _buildInput(areaController, "Area", Icons.map),
-  //         ]),
-  //         const SizedBox(height: 20),
-  //         _buildSection("📸 Building Photo", [
-  //           GestureDetector(
-  //             onTap: pickBuildingImage,
-  //             child: Container(
-  //               height: 150,
-  //               decoration: BoxDecoration(
-  //                 color: const Color(0xFFF8F9FA),
-  //                 borderRadius: BorderRadius.circular(12),
-  //                 border: Border.all(color: primaryBlue, width: 1.5),
-  //               ),
-  //               child: buildingImageBytes != null
-  //                   ? ClipRRect(
-  //                       borderRadius: BorderRadius.circular(12),
-  //                       child: Image.memory(
-  //                         buildingImageBytes!,
-  //                         fit: BoxFit.cover,
-  //                       ),
-  //                     )
-  //                   : existingBuildingUrl != null
-  //                   ? ClipRRect(
-  //                       borderRadius: BorderRadius.circular(12),
-  //                       child: Image.network(
-  //                         existingBuildingUrl!,
-  //                         fit: BoxFit.cover,
-  //                       ),
-  //                     )
-  //                   : Column(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       children: [
-  //                         Icon(Icons.apartment, size: 40, color: primaryBlue),
-  //                         const SizedBox(height: 8),
-  //                         Text(
-  //                           "Tap to upload HD building image",
-  //                           style: TextStyle(color: Colors.grey[700]),
-  //                         ),
-  //                       ],
-  //                     ),
-  //             ),
-  //           ),
-  //         ]),
-  //         const SizedBox(height: 20),
-  //         _buildSection("🛠 Facilities", [
-  //           _buildSwitch(
-  //             "WiFi",
-  //             Icons.wifi,
-  //             wifi,
-  //             (v) => setState(() => wifi = v),
-  //           ),
-  //           _buildSwitch(
-  //             "24/7 Security & CCTV",
-  //             Icons.security,
-  //             securityCctv,
-  //             (v) => setState(() => securityCctv = v),
-  //           ),
-  //           _buildSwitch(
-  //             "Laundry Service",
-  //             Icons.local_laundry_service,
-  //             laundry,
-  //             (v) => setState(() => laundry = v),
-  //           ),
-  //           _buildSwitch(
-  //             "Pure Drinking Water",
-  //             Icons.water_drop,
-  //             drinkingWater,
-  //             (v) => setState(() => drinkingWater = v),
-  //           ),
-  //           _buildSwitch(
-  //             "Meal Service",
-  //             Icons.restaurant,
-  //             mealService,
-  //             (v) => setState(() => mealService = v),
-  //           ),
-  //         ]),
-
-  //         const SizedBox(height: 20),
-  //         _buildSection("🏢 Hostel Type", [ // <-- ADD THIS WHOLE BLOCK
-  //           Container(
-  //             padding: const EdgeInsets.symmetric(horizontal: 12),
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.circular(12),
-  //               border: Border.all(color: primaryBlue),
-  //             ),
-  //             child: DropdownButton<String>(
-  //               value: hostelType,
-  //               hint: const Text("Select Boys/Girls Hostel"),
-  //               isExpanded: true,
-  //               underline: const SizedBox(),
-  //               items: const [
-  //                 DropdownMenuItem(value: "Boys", child: Text("Boys Hostel")),
-  //                 DropdownMenuItem(value: "Girls", child: Text("Girls Hostel")),
-  //               ],
-  //               onChanged: (val) => setState(() => hostelType = val),
-  //             ),
-  //           ),
-  //         const SizedBox(height: 30),
-  //         SizedBox(
-  //           width: double.infinity,
-  //           child: ElevatedButton(
-  //             onPressed: goToRoomCount,
-  //             style: ElevatedButton.styleFrom(
-  //               backgroundColor: primaryBlue,
-  //               padding: const EdgeInsets.symmetric(vertical: 16),
-  //             ),
-  //             child: const Text(
-  //               "Next: Add Rooms",
-  //               style: TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 16,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget buildHostelInfoStep() {
     return SingleChildScrollView(
@@ -650,10 +520,10 @@ class _AddHostelPageState extends State<AddHostelPage> {
               mealService,
               (v) => setState(() => mealService = v),
             ),
-          ]), // <-- This ) was extra
+          ]), 
           const SizedBox(height: 20),
           _buildSection("🏢 Hostel Type", [
-            // <-- ADD THIS WHOLE BLOCK
+          
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
@@ -673,7 +543,7 @@ class _AddHostelPageState extends State<AddHostelPage> {
                 onChanged: (val) => setState(() => hostelType = val),
               ),
             ),
-          ]), // <-- You missed this ] and added )
+          ]), 
           const SizedBox(height: 30),
           SizedBox(
             width: double.infinity,
