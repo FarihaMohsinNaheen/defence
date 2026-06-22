@@ -431,7 +431,6 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
 import 'dart:io';
@@ -586,22 +585,20 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
         setState(() => isLoading = false);
         return;
       } else if (Platform.isAndroid) {
-        // Android এর জন্য permission + Download folder
+        // Android এর জন্য permission + App folder
         var status = await Permission.storage.status;
         if (!status.isGranted) {
           status = await Permission.storage.request();
         }
 
         if (status.isGranted) {
-          final downloadsDirectory =
-              await DownloadsPathProvider.downloadsDirectory;
-          if (downloadsDirectory == null)
-            throw Exception('Downloads folder not found');
+          final directory = await getExternalStorageDirectory();
+          if (directory == null) throw Exception('Storage folder not found');
 
           path =
-              '${downloadsDirectory.path}/NestFinder_Receipt_${widget.transactionId}.pdf';
+              '${directory.path}/NestFinder_Receipt_${widget.transactionId}.pdf';
           saveLocation =
-              'Downloads/NestFinder_Receipt_${widget.transactionId}.pdf';
+              'Android/data/com.your.package/files/NestFinder_Receipt_${widget.transactionId}.pdf';
         } else {
           throw Exception('Storage permission denied');
         }
