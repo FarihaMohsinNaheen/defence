@@ -9,7 +9,7 @@ import 'package:nan_nestfinder/review_page.dart';
 import 'package:nan_nestfinder/admin_panel.dart';
 
 class ExperienceFeedPage extends StatefulWidget {
-  final bool isAdminPanel; // Admin Panel এর Tab এ use করলে true দিবেন
+  final bool isAdminPanel; 
 
   const ExperienceFeedPage({super.key, this.isAdminPanel = false});
 
@@ -32,7 +32,7 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
   void initState() {
     super.initState();
     if (!widget.isAdminPanel) {
-      _fetchUserRole(); // Admin Panel এ role লাগবে না
+      _fetchUserRole(); // Admin Panel no role
     } else {
       setState(() => isLoadingRole = false);
     }
@@ -143,7 +143,7 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
     }
   }
 
-  // Review list এর main code - Admin + Student/Owner 2 জায়গায় use হবে
+ 
   Widget _buildReviewList() {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -372,7 +372,7 @@ class _ExperienceFeedPageState extends State<ExperienceFeedPage> {
       return _buildReviewList();
     }
 
-    // Student/Owner এর জন্য full page with AppBar + bottomNav
+   
     return Scaffold(
       backgroundColor: const Color(0xFFEAF4FF),
       appBar: AppBar(

@@ -174,7 +174,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                           border: Border.all(
                             color: primaryBlue.withOpacity(0.6),
                             width: 2,
-                          ), // <-- Dark blue outline
+                          ), 
                         ),
                         child: Material(
                           color: Colors.transparent,
@@ -195,7 +195,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                 children: [
                                   Row(
                                     children: [
-                                      // Image with border
+                                      
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
@@ -326,7 +326,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                                     FieldValue.serverTimestamp(),
                                               });
 
-                                              // 2. Sob room ek sathe approve
+                                              // 2. all room together approve
                                               final roomsSnap =
                                                   await FirebaseFirestore
                                                       .instance
@@ -457,7 +457,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                                     FieldValue.serverTimestamp(),
                                               });
 
-                                              // 2. Sob room ek sathe reject
+                                              // 2.all room together reject
                                               final roomsSnap =
                                                   await FirebaseFirestore
                                                       .instance
@@ -473,11 +473,11 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                                 batch.update(roomDoc.reference, {
                                                   'status': 'rejected',
                                                   'rejectedAt':
-                                                      FieldValue.serverTimestamp(), // room eo time rakhlam
+                                                      FieldValue.serverTimestamp(), 
                                                 });
                                               }
 
-                                              // 3. Ekta commit e sob done
+                                              // 3. one commit all done
                                               await batch.commit();
 
                                               if (context.mounted) {
@@ -749,7 +749,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
     final roomImage = roomImages.isNotEmpty ? roomImages[0] : '';
 
     final available = room['is_available'] ?? true;
-    // ✅ FIX 2: beds instead of status
+  
     final beds = room['beds'] ?? 'N/A';
 
     return Container(
@@ -808,7 +808,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                 _dialogRow("Type:", type),
                 _dialogRow("Room No:", roomNumber),
                 _dialogRow("Available:", available ? "Yes" : "No"),
-                // ✅ FIX 2: Show Total Beds instead of Status
+                
                 _dialogRow("Total Beds:", "$beds"),
               ],
             ),
@@ -1157,59 +1157,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
-                              // onPressed: ownerApproved
-                              //     ? null
-                              //     : () async {
-                              //         try {
-                              //           final monthly_rent =
-                              //               (data['monthly_rent'] ??
-                              //                       data['rent'] ??
-                              //                       0)
-                              //                   as num;
-                              //           final beds_booked =
-                              //               (data['beds_booked'] ?? 1)
-                              //                   as num; // default 1 bed
-
-                              //           // 2. Int এ convert করেন
-                              //           final int rent = monthly_rent.toInt();
-                              //           final int beds = beds_booked.toInt();
-
-                              //           // final total_rent = (amountRaw is String)
-                              //           //     ? int.tryParse(amountRaw) ?? 0
-                              //           //     : (amountRaw as num).toInt();
-                              //           final int total_rent = rent * beds;
-
-                              //           final commission =
-                              //               (total_rent * 10) ~/
-                              //               100; // Admin 10%
-                              //           final ownerAmount =
-                              //               total_rent -
-                              //               commission; // Owner 90%
-
-                              //           final payoutDate = DateTime.now().add(
-                              //             Duration(seconds: 20),
-                              //           );
-
-                              //           await FirebaseFirestore.instance
-                              //               .collection('bookings')
-                              //               .doc(bookingId)
-                              //               .update({
-                              //                 'owner_approved': true,
-                              //                 'status': 'approved',
-                              //                 'approved_at':
-                              //                     FieldValue.serverTimestamp(),
-                              //                 'payoutDate': Timestamp.fromDate(
-                              //                   payoutDate,
-                              //                 ),
-                              //                 // ignore: equal_keys_in_map
-                              //                 'hostelName':
-                              //                     data['hostel_name'] ??
-                              //                     'Unknown Hostel',
-                              //                 'total_rent': total_rent,
-                              //                 'ownerAmount': ownerAmount,
-                              //                 'adminCommission': commission,
-                              //                 'payout_status': 'pending',
-                              //               });
+                            
                               onPressed: ownerApproved
                                   ? null
                                   : () async {
@@ -1223,7 +1171,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                             (data['beds_booked'] ?? 1)
                                                 as num; // default 1 bed
 
-                                        // 2. Int এ convert করেন
+                                        // 2. Int convert 
                                         final int rent = monthly_rent.toInt();
                                         final int beds = beds_booked.toInt();
 
@@ -1261,9 +1209,9 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                               'payout_status': 'pending',
                                             });
 
-                                        // 2. NEW: Owner কে notification দাও
+                                        // 2.  Owner  notification 
                                         final ownerId =
-                                            data['owner_id']; // or data['hostel']['owner_id']
+                                            data['owner_id']; 
                                         final studentName =
                                             data['student_name'] ?? 'A student';
                                         final hostelName =
@@ -1667,7 +1615,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                 'refunded_at': FieldValue.serverTimestamp(),
               });
 
-              // NEW: Student কে notification দাও
+              // NEW: Student  notification 
               final bookingDoc = await FirebaseFirestore.instance
                   .collection('bookings')
                   .doc(bookingId)
@@ -1689,7 +1637,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
               if (mounted) {
                 Navigator.pop(context); // 1. bKash dialog close
 
-                // 2. Success dialog show - dialogContext use korsi
+                // 2. Success dialog show 
                 showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -2056,7 +2004,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                       ],
                     ),
                     SizedBox(height: 10),
-                    // 👇 "6 days left" / "Paid to Owner" badge - Primary Blue
+                  
                     Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 12,
@@ -2067,7 +2015,7 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                             ? Colors.green
                             : Color(
                                 0xFF003366,
-                              ), // 👈 Primary Dark Blue - "6 days left" badge
+                              ),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -2088,8 +2036,8 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                               ? () async {
                                   final batch = FirebaseFirestore.instance
                                       .batch();
-                                  String? ownerId; // we’ll grab it once
-                                  String? hostelName; // for notification text
+                                  String? ownerId; 
+                                  String? hostelName;
                                   for (var b in bookings) {
                                     batch.update(
                                       FirebaseFirestore.instance
@@ -2102,14 +2050,13 @@ class _AdminPanelPageState extends State<AdminPanelPage>
                                       },
                                     );
 
-                                    // 2. ownerId + hostelName loop er bhetorei dhoro
                                     ownerId ??=
-                                        b['owner_id']; // or b['hostel']['owner_id'] if nested
+                                        b['owner_id']; 
                                     hostelName ??=
-                                        b['hostel_name']; // or b['hostel']['name']
+                                        b['hostel_name']; 
                                   }
 
-                                  // 1. Add owner notification
+                                  //  owner notification
                                   if (ownerId != null) {
                                     final notifRef = FirebaseFirestore.instance
                                         .collection('owner_notifications')

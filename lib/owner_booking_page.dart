@@ -10,12 +10,12 @@ class OwnerBookingsPage extends StatelessWidget {
   const OwnerBookingsPage({
     super.key,
     required String owner_id,
-  }); // ownerId parameter lagbe na
+  }); 
 
   @override
   Widget build(BuildContext context) {
     final ownerId =
-        FirebaseAuth.instance.currentUser!.uid; // <-- current user er UID
+        FirebaseAuth.instance.currentUser!.uid; 
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -45,9 +45,9 @@ class OwnerBookingsPage extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('bookings')
-            .where('owner_id', isEqualTo: ownerId) // <-- lowercase i
+            .where('owner_id', isEqualTo: ownerId) 
             .where('status', isEqualTo: 'approved')
-            .orderBy('paid_at', descending: true) // <-- paid_at underscore
+            .orderBy('paid_at', descending: true) 
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

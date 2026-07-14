@@ -42,7 +42,7 @@ class _OwnerBookingCardState extends State<OwnerBookingCard> {
     final int totalRent = (booking['total_rent'] ?? (beds * rentPerBed))
         .toInt();
 
-    // bookingId ber kori - doc.id na thakle booking er id field theke
+    
     final bookingId =
         booking['id'] ?? booking['booking_id'] ?? booking['doc_id'] ?? '';
 
@@ -142,7 +142,7 @@ class _OwnerBookingCardState extends State<OwnerBookingCard> {
                       ).format(cancelledAt.toDate()),
                     ),
 
-                  // Chat Button - cancel hoile disable
+                 
                   Container(
                     width: double.infinity,
                     margin: const EdgeInsets.only(top: 16),
@@ -164,7 +164,6 @@ class _OwnerBookingCardState extends State<OwnerBookingCard> {
                                 return;
                               }
 
-                              // FIX: chatId er sathe bookingId add korlam
                               final chatId =
                                   "${ownerId}_${studentId}_$bookingId";
 
@@ -174,7 +173,7 @@ class _OwnerBookingCardState extends State<OwnerBookingCard> {
                                   builder: (context) => OwnerChatPage(
                                     chatId: chatId,
                                     bookingId:
-                                        bookingId, // <-- bookingId pass korlam
+                                        bookingId, 
                                     studentName:
                                         booking['student_name'] ?? 'Student',
                                     studentId: studentId,
@@ -210,7 +209,7 @@ class _OwnerBookingCardState extends State<OwnerBookingCard> {
               ),
             ),
 
-          // ===== CANCELLED BADGE - NICHE =====
+         
           if (isCancelled)
             Container(
               width: double.infinity,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nan_nestfinder/owner_setting_page.dart'; // import owner settings
+import 'package:nan_nestfinder/owner_setting_page.dart'; 
 
 class OwnerAboutUsPage extends StatelessWidget {
   const OwnerAboutUsPage({super.key});
@@ -57,13 +57,13 @@ class OwnerAboutUsPage extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              "List your hostel, find students easily", // Owner tagline
+              "List your hostel, find students easily", 
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.grey[700]),
             ),
             const SizedBox(height: 24),
 
-            // 2. About Text - BLUE BOX WITH WHITE TEXT
+          
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
@@ -83,7 +83,7 @@ class OwnerAboutUsPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // 3. Key Features - SAME CARD STYLE
+           
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -135,14 +135,12 @@ class OwnerAboutUsPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // 4. Version - GREY
             Text(
               "Version 1.0.0",
               style: TextStyle(color: Colors.grey[600], fontSize: 13),
             ),
             const SizedBox(height: 4),
 
-            // Made with ❤️ in Sylhet - RED ONLY
             Text(
               "Made with ❤️ in Sylhet",
               style: TextStyle(
@@ -158,7 +156,7 @@ class OwnerAboutUsPage extends StatelessWidget {
     );
   }
 
-  // SAME _buildFeatureTile as student version
+ 
   Widget _buildFeatureTile({
     required IconData icon,
     required String title,

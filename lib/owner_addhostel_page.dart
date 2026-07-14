@@ -85,13 +85,13 @@ class _AddHostelPageState extends State<AddHostelPage> {
         room.roomNumber = d['room_number'] ?? '';
         room.roomNumberController.text = d['room_number'] ?? '';
 
-        // FIX: Map old values to new 2 options to prevent Dropdown crash
+        
         String type = d['room_type'] ?? 'Single Room';
         if (type == 'Single Room') {
           room.roomType = 'Single Room';
         } else {
           room.roomType =
-              'Shared Room'; // "Shared 2", "Shared 3", "Shared 4" → "Shared Room"
+              'Shared Room'; 
         }
 
         room.monthlyRent = d['monthly_rent'] ?? 0;

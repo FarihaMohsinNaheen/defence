@@ -68,7 +68,7 @@ class OwnerPrivacyPolicyPage extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // 2. Sections as Cards - Owner specific
+          // 2. Sections as Cards 
           _buildPolicyCard(
             icon: Icons.folder_outlined,
             title: "Information We Collect",
@@ -130,7 +130,7 @@ class OwnerPrivacyPolicyPage extends StatelessWidget {
     );
   }
 
-  // Reusable card for each policy section - same as student
+ 
   Widget _buildPolicyCard({
     required IconData icon,
     required String title,

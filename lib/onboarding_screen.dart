@@ -18,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, dynamic>> slides = [
     {
       "icon": Icons.home_work,
-      "title": "Find Safe Hostels & Mess",
+      "title": "Find Safe Hostels",
       "desc": "Discover affordable and verified places near you",
     },
     {

@@ -13,7 +13,7 @@ class HelpSupportPage extends StatefulWidget {
 class _HelpSupportPageState extends State<HelpSupportPage> {
   final Color primaryBlue = const Color(0xFF003366);
 
-  /// MASTER FAQ LIST
+  // FAQ LIST
   final List<Map<String, String>> faqs = [
     {
       "q": "How do I book a hostel?",
@@ -135,7 +135,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
       await user.delete();
 
       if (mounted) {
-        // Go to home and clear stack. Change to LoginPage if you have one
+ 
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (_) => const HomePage()),

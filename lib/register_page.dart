@@ -36,8 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final RegExp passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d).{8,}$');
   final RegExp phoneRegex = RegExp(r'^(01[3-9]\d{8})$');
 
-  String? selectedDepartment;
-  String? selectedLifestyle;
   String? selectedGender;
 
   @override
@@ -90,11 +88,6 @@ class _RegisterPageState extends State<RegisterPage> {
         data['owner_email'] = email;
       }
 
-      if (widget.role == "student") {
-        data['department'] = selectedDepartment;
-        data['lifestyle'] = selectedLifestyle;
-      }
-
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
@@ -134,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
     } catch (e) {
-      // Clean error messages for defense
+      //  error messages
       String errorMsg = "Registration failed";
 
       if (e is FirebaseAuthException) {
@@ -364,64 +357,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-
-                      if (widget.role == "student") ...[
-                        const SizedBox(height: 15),
-                        _buildDropdownBox(
-                          label: "Department",
-                          value: selectedDepartment,
-                          icon: Icons.school,
-                          items: const [
-                            DropdownMenuItem(value: "CSE", child: Text("CSE")),
-                            DropdownMenuItem(
-                              value: "Architecture",
-                              child: Text("Architecture"),
-                            ),
-                            DropdownMenuItem(
-                              value: "Civil",
-                              child: Text("Civil"),
-                            ),
-                            DropdownMenuItem(value: "EEE", child: Text("EEE")),
-                            DropdownMenuItem(value: "BBA", child: Text("BBA")),
-                            DropdownMenuItem(
-                              value: "English",
-                              child: Text("English"),
-                            ),
-                          ],
-                          onChanged: (value) =>
-                              setState(() => selectedDepartment = value),
-                          validator: (v) =>
-                              (widget.role == "student" && v == null)
-                              ? "Select department"
-                              : null,
-                        ),
-                        const SizedBox(height: 15),
-                        _buildDropdownBox(
-                          label: "Lifestyle",
-                          value: selectedLifestyle,
-                          icon: Icons.people,
-                          items: const [
-                            DropdownMenuItem(
-                              value: "Study-focused",
-                              child: Text("Study-focused"),
-                            ),
-                            DropdownMenuItem(
-                              value: "Quiet",
-                              child: Text("Quiet"),
-                            ),
-                            DropdownMenuItem(
-                              value: "Social",
-                              child: Text("Social"),
-                            ),
-                          ],
-                          onChanged: (value) =>
-                              setState(() => selectedLifestyle = value),
-                          validator: (v) =>
-                              (widget.role == "student" && v == null)
-                              ? "Select lifestyle"
-                              : null,
-                        ),
-                      ],
 
                       const SizedBox(height: 25),
 

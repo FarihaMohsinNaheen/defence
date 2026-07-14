@@ -137,7 +137,6 @@ class _NotificationPageState extends State<NotificationPage> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        // If you get "index required" error, click the link in console to create it
         stream: FirebaseFirestore.instance
             .collection('notifications')
             .where('user_id', isEqualTo: user!.uid)
@@ -422,7 +421,7 @@ class _NotificationPageState extends State<NotificationPage> {
         return DateTime.parse(val);
       } catch (_) {}
     }
-    // Fallback for missing/wrong type
+
     return DateTime.fromMillisecondsSinceEpoch(0);
   }
 }

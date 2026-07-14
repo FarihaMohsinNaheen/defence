@@ -21,7 +21,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F7FC),
 
-      // ================= APP BAR =================
+      //  APP BAR 
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -36,11 +36,11 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
         ),
       ),
 
-      // ================= BODY =================
+      // BODY
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // ================= CONTACT OPTIONS =================
+          // CONTACT OPTIONS 
           sectionTitle("Contact Us"),
           contactTile(
             Icons.email,
@@ -51,7 +51,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
 
           const SizedBox(height: 20),
 
-          // ================= FAQ =================
+          // FAQ 
           sectionTitle("Frequently Asked Questions"),
           faqTile(
             "How do I add a hostel?",
@@ -74,7 +74,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
 
           const SizedBox(height: 20),
 
-          // ================= ACCOUNT =================
+          // ACCOUNT 
           sectionTitle("Account"),
           deleteAccountTile(),
         ],
@@ -82,7 +82,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
     );
   }
 
-  // ================= SECTION TITLE =================
+  // SECTION TITLE 
   Widget sectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -97,7 +97,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
     );
   }
 
-  // ================= CONTACT TILE =================
+  //CONTACT TILE 
   Widget contactTile(IconData icon, String title, String subtitle) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -113,7 +113,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
     );
   }
 
-  // ================= FAQ TILE =================
+  //  FAQ TILE
   Widget faqTile(
     String question,
     bool expanded,
@@ -152,7 +152,7 @@ class _OwnerHelpSupportPageState extends State<OwnerHelpSupportPage> {
     );
   }
 
-  // ================= DELETE ACCOUNT TILE =================
+  // DELETE ACCOUNT TITLE 
   Widget deleteAccountTile() {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),

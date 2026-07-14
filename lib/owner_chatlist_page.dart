@@ -107,7 +107,6 @@ class OwnerChatListPage extends StatelessWidget {
               final chat = chatDoc.data() as Map<String, dynamic>;
               final chatId = chatDoc.id;
 
-              // FIXED: field name consistent rakhlam
               final bookingId = chat['bookingId'] ?? chat['booking_id'] ?? '';
               final studentId = chat['studentId'] ?? chat['student_id'] ?? '';
               final hostelName =
@@ -237,7 +236,7 @@ class OwnerChatListPage extends StatelessWidget {
                             studentId: studentId,
                             hostelName: hostelName,
                             roomNumber:
-                                roomNumber, // FIXED: roomNumber pass korlam
+                                roomNumber, 
                           ),
                         ),
                       );

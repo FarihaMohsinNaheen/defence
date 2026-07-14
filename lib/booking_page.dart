@@ -65,18 +65,18 @@ class _BookingPageState extends State<BookingPage> {
       0,
     );
     final int totalAmount = rentPerBed * selectedBeds;
-    // ignore: unused_local_variable
+   
     final user = FirebaseAuth.instance.currentUser;
 
     try {
-      // Owner er businessName fetch
+     
       final ownerDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.ownerId)
           .get();
       final businessName = ownerDoc.data()?['businessName'] ?? 'Business';
 
-      // Shudhu bookingId generate koro, doc create koro na
+      
       final bookingId = FirebaseFirestore.instance
           .collection('bookings')
           .doc()

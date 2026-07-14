@@ -24,7 +24,7 @@ class _OwnerPaymentPageState extends State<OwnerPaymentPage>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        selectedBookingIds.clear(); // tab change করলে selection clear
+        selectedBookingIds.clear(); 
       });
     });
   }
@@ -36,7 +36,7 @@ class _OwnerPaymentPageState extends State<OwnerPaymentPage>
   }
 
   double ownerAmount(Map<String, dynamic> data) {
-    // Tk 0 fix: total_rent না থাকলে monthly_rent check করবে
+    
     final totalRent = (data['total_rent'] ?? data['monthly_rent'] ?? 0)
         .toDouble();
     final adminCommission = (data['adminCommission'] ?? data['commission'] ?? 0)
@@ -52,7 +52,7 @@ class _OwnerPaymentPageState extends State<OwnerPaymentPage>
     for (String id in selectedBookingIds) {
       batch.update(FirebaseFirestore.instance.collection('bookings').doc(id), {
         'payout_status': 'paid',
-        'payoutDate': FieldValue.serverTimestamp(), // payoutDate use করছি
+        'payoutDate': FieldValue.serverTimestamp(), 
       });
     }
     await batch.commit();
@@ -127,8 +127,7 @@ class _OwnerPaymentPageState extends State<OwnerPaymentPage>
             (sum, doc) => sum + ownerAmount(doc.data() as Map<String, dynamic>),
           );
 
-          // Summary এর জন্য সব doc লাগবে, তাই আলাদা stream লাগবে না।
-          // এখানে শুধু current tab এর total দেখাবো
+          
           final pendingAmount = payoutFilter == 'pending' ? totalEarned : 0;
           final paidAmount = payoutFilter == 'paid' ? totalEarned : 0;
 
@@ -259,7 +258,7 @@ class _OwnerPaymentPageState extends State<OwnerPaymentPage>
                 ),
               ),
 
-              // 3. Pay Button শুধু pending tab + কিছু select করলে
+             
               if (payoutFilter == 'pending' && selectedBookingIds.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.all(16),

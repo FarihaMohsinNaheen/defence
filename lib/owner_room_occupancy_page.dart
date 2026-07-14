@@ -20,7 +20,8 @@ class OwnerRoomOccupancyPage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        // MAIN COLLECTION 'rooms' theke filter kortesi hostel_id diye
+
+        
         stream: FirebaseFirestore.instance
             .collection('rooms')
             .where('hostel_id', isEqualTo: hostelId)

@@ -134,19 +134,19 @@ class _BkashPaymentPageState extends State<BkashPaymentPage> {
           );
         }
 
-        // 1. Room er bed count update
+        
         transaction.update(roomRef, {
           'booked_beds': bookedBeds + widget.selectedBeds,
         });
 
-        // 2. Booking doc CREATE - payment success er sathe sathe
+       
         transaction.set(bookingRef, {
           'booking_id': widget.bookingId,
           'student_id': user.uid,
           'owner_id': widget.ownerId,
           'room_id': widget.roomId,
           'hostel_id':
-              widget.hostel['id'] ?? widget.roomId, // FIX 1: hostel_id added
+              widget.hostel['id'] ?? widget.roomId, 
           'hostel_name': widget.hostelName,
           'room_number': roomNumber,
           'businessName': widget.businessName,
@@ -158,7 +158,7 @@ class _BkashPaymentPageState extends State<BkashPaymentPage> {
           'student_phone': widget.studentPhone,
           'student_email': widget.studentEmail
               .toLowerCase()
-              .trim(), // FIX 2: lowercase + trim
+              .trim(), 
           'bkash_number': number,
           'payment_method': 'bKash',
           'transaction_id': transactionId,
@@ -168,7 +168,7 @@ class _BkashPaymentPageState extends State<BkashPaymentPage> {
         });
       });
 
-      // Owner ke notification
+      // Owner  notification
       await FirebaseFirestore.instance.collection('notifications').add({
         'user_id': ownerId,
         'title': 'New Booking Paid',
